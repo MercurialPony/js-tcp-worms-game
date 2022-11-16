@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "noisejs": "^2.1.0",
+    "pngjs": "^6.0.0"
+  }
+}

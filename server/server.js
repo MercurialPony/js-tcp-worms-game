@@ -1,10 +1,9 @@
+const FS = require("fs");
 const Net = require('net');
-let {Sockets: sockets} = require('./msg_handling');
 const SendingUtil = require("./data_sending");
 const HandlingUtil = require('./msg_handling');
-
-const FS = require("fs");
 const TerrainGenerator = require("./terrain-generator");
+
 
 
 const server = Net.createServer(socket => {
@@ -25,7 +24,7 @@ const server = Net.createServer(socket => {
     });
 
     socket.on("close", () => {
-        sockets = sockets.filter(player => player.localAddress !== socket.localAddress);
+        HandlingUtil.sockets = sockets.filter(player => player.localAddress !== socket.localAddress);
     });
 });
 

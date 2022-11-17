@@ -1,27 +1,26 @@
-let Sockets = [];
-const MessageHandlers = [];
+let sockets = [];
+const messageHandlers = [];
 
-MessageHandlers[0] = (data, socket) => {
+messageHandlers[0] = (data, socket) => {
     const parsedData = JSON.parse(data.toString());
-    Sockets.push({
+    sockets.push({
         socket: socket,
         username: parsedData.username
     });
 	console.log(data.toString());
 }
-MessageHandlers[1] = data => {
+messageHandlers[1] = data => {
     //
 }
 
-const HandleMessage = (socket, messageID, data) => {
+const handleMessage = (socket, messageID, data) => {
     //TODO valid messageID
-    MessageHandlers[messageID](data, socket);
+    messageHandlers[messageID](data, socket);
 }
 
 const MsgHandling = {
-    Sockets,
-    MessageHandlers,
-    HandleMessage
+    sockets,
+    handleMessage
 }
 
 module.exports = MsgHandling;

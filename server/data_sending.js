@@ -1,6 +1,6 @@
 const {PNG: png} = require("pngjs");
 
-const SendData = (socket, type, data) => {
+const sendData = (socket, type, data) => {
     const typeOfData = Buffer.alloc(1);
     typeOfData[0] = type;
     const finalData = Buffer.concat([typeOfData, data]);
@@ -8,20 +8,20 @@ const SendData = (socket, type, data) => {
     socket.write(finalData);
 }
 
-const SendString = (socket, messageID, stringData) => {
+const sendString = (socket, messageID, stringData) => {
     //TODO check valid messageID
-    SendData(socket, messageID, Buffer.from(stringData));
+    sendData(socket, messageID, Buffer.from(stringData));
 }
 
-const SendImage = (socket, messageID, image) => {
+const sendImage = (socket, messageID, image) => {
     //TODO check valid messageID
-    SendData(socket, messageID, image)
+    sendData(socket, messageID, image)
 }
 
 const DataSending = {
-    SendData,
-    SendString,
-    SendImage
+    sendData,
+    sendString,
+    sendImage
 }
 
 module.exports = DataSending;

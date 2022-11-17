@@ -8,7 +8,11 @@ const TerrainGenerator = require("./terrain-generator");
 function sendTestTerrain(socket)
 {
 	let randomType = Math.floor(Math.random() * 3) + 1;
-	SendingUtil.sendImage(socket, 0, TerrainGenerator.generate(`./terrain_bases/base_${randomType}.png`, Math.random()));
+	SendingUtil.sendImage(
+        socket,
+        0,
+        TerrainGenerator.generate(`./terrain_bases/base_${randomType}.png`, Math.random())
+    );
 }
 
 const server = Net.createServer(socket => {

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>HTML 5 Boilerplate</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.83/dist/themes/light.css"
+    />
+    <script
+      type="module"
+      src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.83/dist/shoelace.js"
+    ></script>
+  </head>
+  <body>
+    <div class="btn-back">
+      <sl-icon-button
+        class="icon_back"
+        name="arrow-left-square"
+        label="back-btn"
+        style="font-size: 1.5rem"
+      >
+      </sl-icon-button>
+    </div>
+
+    <sl-dialog label="Dialog" class="dialog-deny-close">
+      Вы уверены, что хотите выйти из игры?
+      <sl-button slot="home" variant="success">Остаться</sl-button>
+      <sl-button slot="stay" variant="danger">Выйти</sl-button>
+    </sl-dialog>
+
+    <script>
+      const dialog = document.querySelector(".dialog-deny-close");
+      const openButton = dialog.nextElementSibling;
+      const homeButton = dialog.querySelector('sl-button[slot="home"]');
+      const closeButton = dialog.querySelector('sl-button[slot="stay"]');
+
+      openButton.addEventListener("click", () => dialog.show());
+      closeButton.addEventListener("click", () => dialog.hide());
+
+      // Prevent the dialog from closing when the user clicks on the overlay
+      dialog.addEventListener("sl-request-close", (event) => {
+        if (event.detail.source === "overlay") {
+          event.preventDefault();
+        }
+      });
+    </script>
+
+    <canvas id="c" width="1000" height="1000"></canvas>
+    <script src="lib/hqx.js"></script>
+    <script src="src/battle/utils.js"></script>
+    <script src="src/battle/rendering-utils.js"></script>
+    <script src="src/battle/renderers.js"></script>
+    <script src="src/battle/controls.js"></script>
+    <script src="src/battle/main.js"></script>
+  </body>
+</html>

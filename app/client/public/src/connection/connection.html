@@ -1,0 +1,78 @@
+<!-- <link rel="stylesheet" href="home.css" /> -->
+<link rel="stylesheet" href="../connection/connection.css" />
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.83/dist/themes/light.css"
+/>
+<script
+  type="module"
+  src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.83/dist/shoelace.js"
+></script>
+
+<div class="btn-back-div">
+  <!-- <sl-button
+    class="btn-back"
+    variant="danger"
+    size="large"
+    outline
+    type="button"
+    href="../home/home.html"
+  > -->
+  <sl-icon-button
+    class="icon_back"
+    href="../home/home.html"
+    name="arrow-left-square"
+    label="back-btn"
+    style="font-size: 1.5rem"
+  ></sl-icon-button>
+  <!-- </sl-button> -->
+</div>
+
+<div class="connect-main">
+  <div class="connect-main-title">
+    <h1 class="main-title">Подключение к серверу</h1>
+  </div>
+
+  <div class="connect-fields">
+    <form [formGroup]="formGroup">
+      <div class="input-ip">
+        <sl-input
+          class="input-data"
+          placeholder="Введите IP сервера"
+          clearable
+          required
+          pattern="shoelace"
+          [style.font-size.px]="30"
+          appearance="fill"
+        >
+        </sl-input>
+      </div>
+
+      <div class="input-username">
+        <sl-input
+          class="input-data"
+          placeholder="Введите username"
+          clearable
+          required
+          pattern="shoelace"
+          [style.font-size.px]="30"
+          appearance="fill"
+        >
+        </sl-input>
+      </div>
+    </form>
+
+    <div class="play-btn-enter">
+      <sl-button
+        class="play-btn"
+        variant="danger"
+        size="large"
+        outline
+        type="button"
+        href="../../index.html"
+      >
+        ИГРАТЬ
+      </sl-button>
+    </div>
+  </div>
+</div>

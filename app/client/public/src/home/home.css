@@ -1,0 +1,53 @@
+header {
+  position: relative;
+  display: flex;
+  height: 90px;
+  background-color: rgb(45, 45, 45);
+}
+header h1 {
+  margin: auto;
+  color: rgb(255, 255, 255);
+}
+
+.main {
+  position: relative;
+  min-height: 88.4vh;
+  background-color: rgb(25, 25, 25);
+}
+.main .button-main {
+  text-align: center;
+}
+.main .button-main .main-title {
+  position: relative;
+  top: 140px;
+}
+.main .button-main .main-title .title-main {
+  font-size: 60px;
+  font-weight: bold;
+  color: rgb(255, 255, 255);
+}
+.main .button-main .row {
+  position: relative;
+  margin-top: 200px;
+}
+.main .button-main .row .play-btn-enter .play-btn {
+  height: 90px;
+  width: 350px;
+  font-size: 25px;
+  border-radius: 0px !important;
+}
+.main .auth-title-div {
+  margin-top: 35px;
+  color: rgb(255, 255, 255);
+}
+.main .auth-title-div .authors-title {
+  text-align: center;
+}
+.main .divider {
+  margin: auto;
+  width: 300px;
+}
+.main .authors-list {
+  margin-top: 20px;
+  color: rgb(255, 255, 255);
+}/*# sourceMappingURL=home.css.map */

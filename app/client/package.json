@@ -1,0 +1,17 @@
+{
+  "name": "lab_main",
+  "version": "1.0.0",
+  "description": "",
+  "main": "test-server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron test-server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "pngjs": "^6.0.0"
+  },
+  "devDependencies": {
+    "electron": "^21.2.3"
+  }
+}

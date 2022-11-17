@@ -1,0 +1,79 @@
+.btn-back-div sl-icon-button::part(base) {
+  color: #ffffff;
+}
+
+.btn-back-div sl-icon-button::part(base):hover,
+.btn-back-div sl-icon-button::part(base):focus {
+  color: #c31c1c;
+}
+
+.btn-back-div sl-icon-button::part(base):active {
+  color: #9e2929;
+}
+
+.input-data[invalid]:not([disabled])::part(label),
+.input-data[invalid]:not([disabled])::part(help-text) {
+  color: var(--sl-color-danger-600);
+}
+
+// .input-data[invalid]:not([disabled])::part(base) {
+//   border-color: var(--sl-color-danger-500);
+// }
+
+.input-data[invalid]:focus-within::part(base) {
+  box-shadow: 0 0 0 var(--sl-focus-ring-width) var(--sl-color-danger-500);
+}
+
+body {
+  background-color: rgb(25, 25, 25);
+}
+
+.btn-back-div {
+  position: relative;
+  padding: 5px 5px;
+
+  // .btn-back {
+  //   display: flex;
+  //   .icon-back {
+  //     margin: auto;
+  //   }
+  // }
+}
+
+.connect-main {
+  text-align: center;
+  // min-height: 100vh;
+
+  .connect-main-title {
+    margin-top: 200px;
+
+    .main-title {
+      font-size: 60px;
+      font-weight: bold;
+      color: rgb(255, 255, 255);
+    }
+  }
+
+  .input-ip {
+    margin: auto;
+    margin-top: 70px;
+    width: 450px;
+  }
+
+  .input-username {
+    margin: auto;
+    margin-top: 30px;
+    width: 450px;
+  }
+
+  .play-btn-enter {
+    margin-top: 40px;
+
+    .play-btn {
+      height: 50px;
+      width: 180px;
+      font-size: 20px;
+      border-radius: 0px !important;
+    }
+  }
+}

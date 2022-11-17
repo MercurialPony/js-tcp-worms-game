@@ -1,0 +1,36 @@
+.btn-back sl-icon-button::part(base) {
+  color: #000000;
+}
+
+.btn-back sl-icon-button::part(base):hover,
+.btn-back sl-icon-button::part(base):focus {
+  color: #c31c1c;
+}
+
+.btn-back sl-icon-button::part(base):active {
+  color: #9e2929;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body,
+canvas {
+  width: 100%;
+  height: 100%;
+}
+
+canvas {
+  display: block;
+}
+
+.btn-back {
+  position: absolute;
+  padding: 5px 5px;
+
+  // .icon_back {
+  // }
+}

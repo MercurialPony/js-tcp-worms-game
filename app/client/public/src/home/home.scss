@@ -1,0 +1,78 @@
+//HEADER-STYLE
+header {
+  position: relative;
+  display: flex;
+  height: 90px;
+  background-color: rgb(45, 45, 45);
+
+  h1 {
+    margin: auto;
+    color: rgb(255, 255, 255);
+  }
+}
+
+// sl-divider {
+//   margin: auto;
+//   width: 150px;
+// }
+
+.main {
+  position: relative;
+  min-height: 88.4vh;
+  background-color: rgb(25, 25, 25);
+
+  .button-main {
+    text-align: center;
+
+    // .bg-video {
+    //   video {
+    //     // object-fit: cover;
+    //   }
+    // }
+
+    .main-title {
+      position: relative;
+      top: 140px;
+
+      .title-main {
+        font-size: 60px;
+        font-weight: bold;
+        color: rgb(255, 255, 255);
+      }
+    }
+
+    .row {
+      position: relative;
+      margin-top: 200px;
+
+      .play-btn-enter {
+        .play-btn {
+          height: 90px;
+          width: 350px;
+          // margin-bottom: 40px;
+          font-size: 25px;
+          border-radius: 0px !important;
+        }
+      }
+    }
+  }
+
+  .auth-title-div {
+    margin-top: 35px;
+    color: rgb(255, 255, 255);
+
+    .authors-title {
+      text-align: center;
+    }
+  }
+
+  .divider {
+    margin: auto;
+    width: 300px;
+  }
+
+  .authors-list {
+    margin-top: 20px;
+    color: rgb(255, 255, 255);
+  }
+}

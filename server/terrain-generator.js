@@ -291,9 +291,7 @@ function generate(baseImgPath, seed, options)
 	convolve(resImg, KERNEL, 1, true);
 	convolve(resImg, KERNEL, 1, true);
 
-	resImg.writeToDisk("./out.png");
+	return PNG.sync.write(resImg);
 }
 
 module.exports.generate = generate;
-
-//generate("./terrain_bases/base_1.png", Math.random());

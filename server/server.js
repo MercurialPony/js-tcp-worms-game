@@ -10,11 +10,20 @@ const {
     HandleMessage: handleMessage
 } = require('./msg_handling');
 
+const FS = require("fs");
+const TerrainGenerator = require("./terrain-generator");
+
 
 const server = net.createServer(socket => {
-    console.log(`Player "${socket.localAddress}" connected`);
+	
+	console.log(`Player "${socket.localAddress}" connected`);
+	
+	let randomType = Math.floor(Math.random() * 3) + 1;
+	TerrainGenerator.generate(`./terrain_bases/base_${randomType}.png`, Math.random());
+	sendImage(socket, 0, FS.readFileSync("./out.png"));
 
-    socket.on("data",clientData => {
+
+    socket.on("data", clientData => {
         const messageID = clientData.subarray(0, 1)[0];
         const data = clientData.subarray(1, clientData.length);
 

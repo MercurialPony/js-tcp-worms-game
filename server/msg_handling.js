@@ -7,6 +7,7 @@ MessageHandlers[0] = (data, socket) => {
         socket: socket,
         username: parsedData.username
     });
+	console.log(data.toString());
 }
 MessageHandlers[1] = data => {
     //

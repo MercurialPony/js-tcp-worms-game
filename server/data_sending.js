@@ -15,7 +15,7 @@ const SendString = (socket, messageID, stringData) => {
 
 const SendImage = (socket, messageID, image) => {
     //TODO check valid messageID
-    SendData(socket, messageID, png.sync.read(image))
+    SendData(socket, messageID, image)
 }
 
 const DataSending = {

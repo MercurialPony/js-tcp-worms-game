@@ -296,4 +296,4 @@ function generate(baseImgPath, seed, options)
 
 module.exports.generate = generate;
 
-generate("./terrain_bases/base_1.png", Math.random());
+//generate("./terrain_bases/base_1.png", Math.random());

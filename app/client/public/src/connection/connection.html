@@ -4,10 +4,6 @@
   rel="stylesheet"
   href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.83/dist/themes/light.css"
 />
-<script
-  type="module"
-  src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.83/dist/shoelace.js"
-></script>
 
 <div class="btn-back-div">
   <!-- <sl-button
@@ -34,45 +30,83 @@
   </div>
 
   <div class="connect-fields">
-    <form [formGroup]="formGroup">
+    <form id="form">
       <div class="input-ip">
         <sl-input
+          id="ip"
+          name="ip"
           class="input-data"
           placeholder="Введите IP сервера"
           clearable
           required
-          pattern="shoelace"
+          pattern="[.0-9]+"
+          minlength="7"
           [style.font-size.px]="30"
-          appearance="fill"
         >
         </sl-input>
       </div>
 
       <div class="input-username">
         <sl-input
+          id="username"
+          name="username"
           class="input-data"
           placeholder="Введите username"
           clearable
           required
-          pattern="shoelace"
+          pattern="[A-Za-z]+"
           [style.font-size.px]="30"
-          appearance="fill"
         >
         </sl-input>
       </div>
-    </form>
 
-    <div class="play-btn-enter">
-      <sl-button
-        class="play-btn"
-        variant="danger"
-        size="large"
-        outline
-        type="button"
-        href="../../index.html"
-      >
-        ИГРАТЬ
-      </sl-button>
-    </div>
+      <div class="play-btn-enter">
+        <sl-button
+          class="play-btn"
+          variant="danger"
+          size="large"
+          outline
+          type="submit"
+        >
+          ИГРАТЬ
+        </sl-button>
+      </div>
+    </form>
   </div>
 </div>
+
+<script
+  type="module"
+  src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.83/dist/shoelace.js"
+></script>
+
+<script src="./connection.js"></script>
+
+<!-- <script type="module">
+  const { form } = document.forms;
+
+  // const form = document.querySelector(".input-validation-pattern");
+  function getInputsValues(event) {
+    event.preventDefault();
+
+    // const ipAddress = form.querySelector('[name="ip"]');
+    // const username = form.querySelector('[name="username"]');
+
+    // console.log("v1", { ip: ipAddress.value, username: username.value });
+    // console.log(ipAddress);
+
+    const { ip, username } = form;
+
+    const values = {
+      ip: ip,
+      username: username,
+    };
+
+    console.log(values);
+  }
+
+  if (form) {
+    console.log(form);
+    form.addEventListener("submit", getInputsValues);
+  }
+</script> -->

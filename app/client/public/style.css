@@ -28,6 +28,7 @@ canvas {
 }
 
 .btn-back {
+  z-index: 999999;
   position: absolute;
   padding: 5px 5px;
 

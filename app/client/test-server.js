@@ -18,18 +18,6 @@ function start() {
     },
   });
 
-  // socket.connect({ port: 457, host: "10.102.9.246" });
-
-  // const buff = Buffer.alloc(1);
-  // buff[0] = 0;
-  // const buff2 = Buffer.concat([
-  //   buff,
-  //   Buffer.from(JSON.stringify({ username: "Bruh" }), "utf-8"),
-  // ]);
-
-  // console.log(buff2);
-  // socket.write(buff2);
-
   // socket.on("data", async (msg) => {
   //   const messageID = msg.subarray(0, 1)[0];
   //   const data = msg.subarray(1, msg.length);
@@ -39,15 +27,6 @@ function start() {
   //   const imgData = png.sync.write(image);
   //   fs.writeFileSync("./public/textures/rand_1.png", imgData);
   // });
-
-  // socket.connect({ host: "10.102.9.246", port: 457 }, () => {
-  //   console.log("Hello Artur");
-  // });
-
-  //   client.on("data", (data) => {
-  //     console.log(data.toString().toUpperCase());
-  //     client.end();
-  //   });
 
   mainWindow.loadFile("public/src/home/home.html");
 

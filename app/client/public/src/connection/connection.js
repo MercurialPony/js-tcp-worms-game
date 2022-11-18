@@ -8,6 +8,16 @@ const socket = new Socket();
 const ipInput = document.getElementById("ip");
 const userInput = document.getElementById("username");
 
+function loadAnima(event) {
+  event.preventDefault();
+
+  const playBtn = document.querySelector(".play-btn");
+  playBtn.onclick = () => {
+    this.innerHTML =
+      '<sl-spinner style="font-size: 3rem; --indicator-color: deeppink; --track-color: pink;"></sl-spinner>';
+  };
+}
+
 function strToBuff(data) {
   const buff = Buffer.alloc(1);
   buff[0] = 0;
@@ -44,4 +54,5 @@ function getInputsValues(event) {
   });
 }
 
+form.addEventListener("submit", loadAnima);
 form.addEventListener("submit", getInputsValues);

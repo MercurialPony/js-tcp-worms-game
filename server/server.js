@@ -22,7 +22,8 @@ const server = Net.createServer((socket) => {
 
   socket.on("data", (clientData) => {
     const messageID = clientData.subarray(0, 1)[0];
-    const data = clientData.subarray(1, clientData.length);
+    const dataLength = clientData.subarray(1, 5)[0];
+    const data = clientData.subarray(5, clientData.length);
 
     HandlingUtil.handleMessage(socket, messageID, data);
     console.log("Received message: ", messageID, data);
@@ -35,7 +36,7 @@ const server = Net.createServer((socket) => {
   });
 });
 
-const port = 457;
+const port = 1457;
 server.listen(port, () => {
   console.log("Server is running on PORT - 457");
 });

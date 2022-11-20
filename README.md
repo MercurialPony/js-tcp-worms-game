@@ -5,5 +5,5 @@ Develop a client-server game using the TCP/IP protocol.
 * Electron.JS
 * HTML, CSS
 # Structure
-* `client/` - client application
+* `app/` - client application
 * `server/` - server application

@@ -16,33 +16,57 @@
     ></script>
   </head>
   <body>
+    <sl-dialog class="dialog-deny-close">
+      <h1
+        class="dialog-title"
+        style="
+          text-align: center;
+          color: rgb(255, 255, 255);
+          margin-bottom: 60px;
+        "
+      >
+        ТЫ СДАЕШЬСЯ ?
+      </h1>
+      <div class="dialog-btns" style="text-align: center; margin-bottom: 10px">
+        <sl-button
+          class="btn-stay"
+          slot="footer"
+          variant="success"
+          style="right: 10px"
+          >НИ ЗА ЧТО!</sl-button
+        >
+        <sl-button
+          class="btn-home"
+          slot="footer"
+          variant="danger"
+          style="left: 10px"
+          href="./src/home/home.html"
+          >СДАЮСЬ</sl-button
+        >
+      </div>
+    </sl-dialog>
+
     <div class="btn-back">
       <sl-icon-button
         class="icon_back"
         name="arrow-left-square"
         label="back-btn"
         style="font-size: 1.5rem"
-        href="./src/home/home.html"
       >
       </sl-icon-button>
     </div>
 
-    <sl-dialog label="Dialog" class="dialog-deny-close">
-      Вы уверены, что хотите выйти из игры?
-      <sl-button slot="home" variant="success">Остаться</sl-button>
-      <sl-button slot="stay" variant="danger">Выйти</sl-button>
-    </sl-dialog>
-
     <script>
       const dialog = document.querySelector(".dialog-deny-close");
       const openButton = dialog.nextElementSibling;
-      const homeButton = dialog.querySelector('sl-button[slot="home"]');
-      const closeButton = dialog.querySelector('sl-button[slot="stay"]');
+      const homeButton = dialog.querySelector('sl-button[slot="footer"]');
+      const closeButton = dialog.querySelector('sl-button[slot="footer"]');
 
-      openButton.addEventListener("click", () => dialog.show());
+      openButton.addEventListener("click", () =>
+        dialog.show(console.log("lock"))
+      );
       closeButton.addEventListener("click", () => dialog.hide());
 
-      // Prevent the dialog from closing when the user clicks on the overlay
       dialog.addEventListener("sl-request-close", (event) => {
         if (event.detail.source === "overlay") {
           event.preventDefault();

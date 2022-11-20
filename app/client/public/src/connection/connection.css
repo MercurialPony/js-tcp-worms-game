@@ -45,6 +45,11 @@ body {
   margin-top: 70px;
   width: 450px;
 }
+.connect-main .input-port {
+  margin: auto;
+  margin-top: 30px;
+  width: 450px;
+}
 .connect-main .input-username {
   margin: auto;
   margin-top: 30px;

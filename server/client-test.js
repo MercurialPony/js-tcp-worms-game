@@ -2,7 +2,9 @@ const Socket = require("net").Socket;
 
 const socket = new Socket();
 
-socket.connect({ port: 1457, host: "localhost" }, () =>
+const ip = process.argv[2] || "localhost";
+
+socket.connect({ port: 1457, host: ip }, () =>
 {
 	console.log("Connected to server");
 	

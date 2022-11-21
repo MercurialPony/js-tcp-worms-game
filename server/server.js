@@ -22,10 +22,10 @@ const connectedUsers = {};
 
 const server = Net.createServer((socket) =>
 {
-	const ip = socket.remoteAddress;
+	const ip = socket.remoteAddress.replace(/^.*:/, '');
 	const user = { ip, socket };
 	connectedUsers[ip] = user;
-	console.log(`"${ip}" connected`);
+	console.log(`${ip} connected`);
 
 	sendTestTerrain(socket); // TEST
 

@@ -24,6 +24,8 @@ const server = Net.createServer(socket => {
 	connectedUsers[ip] = user;
 	console.log(`${ip} connected`);
 
+	sendTestTerrain(socket); //TEST
+
 	let id = 0;
 	let contentLength = 0;
 	let accumulatedContent = Buffer.alloc(0);
@@ -41,6 +43,7 @@ const server = Net.createServer(socket => {
 			accumulatedContent = Buffer.alloc(0);
 		}
 	});
+
 
 	socket.on("message", (id, content) => {
 		console.log(

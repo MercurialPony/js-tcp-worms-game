@@ -45,5 +45,5 @@ socket.on("message", (id, content) => {
 	console.log(
 		"Received message with id:", id,
 		"\nLength:",content.length,
-		"\nContent:", content.toString())
+		"\nContent:", content.toString(), "\n");
 });

@@ -7,7 +7,7 @@ const GameManager = require("./game-manager");
 
 function sendTestTerrain(socket) {
 	let randomType = Math.floor(Math.random() * 3) + 1;
-	MessageSender.data(
+	MessageSender.image(
 		socket,
 		0,
 		TerrainGenerator.generate(`./terrain_bases/base_${randomType}.png`, Math.random())

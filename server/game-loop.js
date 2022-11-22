@@ -3,7 +3,7 @@ module.exports = class GameLoop
 	constructor(tickRate, update)
 	{
 		this.tickLengthMs = 1000 / tickRate;
-		this.update = update();
+		this.update = update;
 		
 		this._running = false;
 	}
@@ -42,14 +42,14 @@ module.exports = class GameLoop
 		{
 			return;
 		}
-	
+
 		if (Date.now() - this._previousTick < this.tickRate - 16)
 		{
 			setTimeout(this._loop);
 		}
 		else
 		{
-			setImmediate(this._loop);
+			setImmediate(this._loop.bind(this));
 		}
 	}
 }

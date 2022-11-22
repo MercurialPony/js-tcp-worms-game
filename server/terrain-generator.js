@@ -249,6 +249,7 @@ const KERNEL = [ [0, 1, 1, 1, 0 ], [ 1, 1, 1, 1, 1 ], [ 1, 1, 1, 1, 1 ], [ 1, 1,
 
 const DEFAULT_OPTIONS = { noiseResolution: 35, noiseResolutionBlack: 18, noiseThreshold: 20 };
 
+// FIXME: async
 function generate(baseImgPath, seed, options)
 {
 	options = Object.assign(DEFAULT_OPTIONS, options);

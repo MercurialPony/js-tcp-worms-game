@@ -1,3 +1,5 @@
+const ZLib = require("zlib");
+
 module.exports.data = (socket, id, data) =>
 {
 	const idBuffer = Buffer.alloc(1);
@@ -14,4 +16,9 @@ module.exports.json = (socket, id, data) =>
 {
 	//TODO check valid message ID
 	module.exports.data(socket, id, Buffer.from(JSON.stringify(data)));
+}
+
+module.exports.image = (socket, id, data) =>
+{
+	module.exports.data(socket, id, ZLib.gzipSync(daat));
 }

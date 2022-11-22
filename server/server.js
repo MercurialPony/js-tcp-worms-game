@@ -24,12 +24,11 @@ const server = Net.createServer(socket => {
 	connectedUsers[ip] = user;
 	console.log(`${ip} connected`);
 
-	sendTestTerrain(socket); // TEST
-
 	let id = 0;
 	let contentLength = 0;
 	let accumulatedContent = Buffer.alloc(0);
-	socket.on("data", (data) => {
+	socket.on("data", data => {
+		console.log("Received data chunk: ", data.length); // TEST
 		if (accumulatedContent.length === 0) {
 			id = data.subarray(0, 1)[0];
 			contentLength = data.subarray(1, 3).readInt16BE();
@@ -38,13 +37,16 @@ const server = Net.createServer(socket => {
 			accumulatedContent = Buffer.concat([accumulatedContent, data]);
 		}
 		if (accumulatedContent.length === contentLength) {
-			socket.emit("message", id, accumulatedContent); //FIXME test zero buffer
+			socket.emit("message", id, accumulatedContent);
 			accumulatedContent = Buffer.alloc(0);
 		}
 	});
 
 	socket.on("message", (id, content) => {
-		console.log("Received message with id ", id);
+		console.log(
+			"Received message with id:", id,
+			"\nLength:",content.length,
+			"\nContent:", content.toString());
 		MessageHandler.handle(user, id, content);
 	});
 

@@ -1,17 +1,23 @@
 const messageHandlers = [];
 
-module.exports.handler = (id, parser, handler) =>
+function handler(id, parser, handler)
 {
 	messageHandlers[id] = (user, data) => handler(user, parser(data));
 }
 
-module.exports.json = (id, handler) =>
+function json(id, handler)
 {
-	module.exports.handler(id, data => JSON.parse(data.toString()), handler);
+	handler(id, data => JSON.parse(data.toString()), handler);
 }
 
-module.exports.handle = (user, id, data) =>
+function handle(user, id, data)
 {
 	//TODO valid message ID
 	messageHandlers[id](user, data);
 }
+
+module.exports = {
+	handler,
+	json,
+	handle
+};

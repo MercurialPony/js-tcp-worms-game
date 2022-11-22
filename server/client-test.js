@@ -1,4 +1,3 @@
-const MessageHandler = require("./message-handler");
 const Socket = require("net").Socket;
 
 const socket = new Socket();
@@ -18,10 +17,7 @@ function send(socket, type, data) {
 
 socket.connect({ port: 1457, host: ip }, () => {
 	console.log("Connected to server");
-	send(socket, 0, Buffer.from(JSON.stringify({ username: "hewwo" })));
-	setTimeout(() => {
-		send(socket, 0, Buffer.from(JSON.stringify({ username: "2nd_hewwo" })));
-	}, 1000);
+	send(socket, 0, Buffer.from(JSON.stringify({ username: "hewwo" + Math.floor(Math.random() * 1000) })));
 });
 
 let id = 0;

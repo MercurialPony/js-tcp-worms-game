@@ -1,3 +1,4 @@
+const PNG = require("pngjs").PNG;
 const ZLib = require("zlib");
 
 module.exports.data = (socket, id, data) =>
@@ -12,13 +13,13 @@ module.exports.data = (socket, id, data) =>
 	socket.write(finalData);
 }
 
-module.exports.json = (socket, id, data) =>
+module.exports.json = (socket, id, obj) =>
 {
 	//TODO check valid message ID
-	module.exports.data(socket, id, Buffer.from(JSON.stringify(data)));
+	module.exports.data(socket, id, Buffer.from(JSON.stringify(obj)));
 }
 
-module.exports.image = (socket, id, data) =>
+module.exports.png = (socket, id, img) =>
 {
-	module.exports.data(socket, id, ZLib.gzipSync(daat));
+	module.exports.data(socket, id, ZLib.gzipSync(PNG.sync.write(img)));
 }

@@ -250,8 +250,11 @@ const KERNEL = [ [0, 1, 1, 1, 0 ], [ 1, 1, 1, 1, 1 ], [ 1, 1, 1, 1, 1 ], [ 1, 1,
 const DEFAULT_OPTIONS = { noiseResolution: 35, noiseResolutionBlack: 18, noiseThreshold: 20 };
 
 // FIXME: async
-function generate(baseImgPath, seed, options)
+// FIXME: bottom cutoff
+module.exports.generate = (baseImgPath, seed, options) =>
 {
+	seed = seed || Math.random();
+
 	options = Object.assign(DEFAULT_OPTIONS, options);
 	
 	const baseImg = readFromDisk(baseImgPath);
@@ -292,7 +295,5 @@ function generate(baseImgPath, seed, options)
 	convolve(resImg, KERNEL, 1, true);
 	convolve(resImg, KERNEL, 1, true);
 
-	return PNG.sync.write(resImg);
+	return resImg;
 }
-
-module.exports.generate = generate;

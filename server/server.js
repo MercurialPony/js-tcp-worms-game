@@ -1,18 +1,8 @@
 const Net = require("net");
-const MessageSender = require("./message-sender");
 const MessageHandler = require("./message-handler");
-const TerrainGenerator = require("./terrain-generator");
 const GameManager = require("./game-manager");
 
 
-function sendTestTerrain(socket) {
-	let randomType = Math.floor(Math.random() * 3) + 1;
-	MessageSender.image(
-		socket,
-		0,
-		TerrainGenerator.generate(`./terrain_bases/base_${randomType}.png`, Math.random())
-	);
-}
 
 const port = process.argv[2] || 1457;
 
@@ -23,8 +13,6 @@ const server = Net.createServer(socket => {
 	const user = { ip, socket };
 	connectedUsers[ip] = user;
 	console.log(`${ip} connected`);
-
-	sendTestTerrain(socket); //TEST
 
 	let id = 0;
 	let contentLength = 0;

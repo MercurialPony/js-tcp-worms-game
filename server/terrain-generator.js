@@ -141,12 +141,11 @@ function removeHoles(img) //FIXME replace all setColor with return color
 	});
 }
 
-const KERNEL = [ [0, 1, 1, 1, 0 ], [ 1, 1, 1, 1, 1 ], [ 1, 1, 1, 1, 1 ], [ 1, 1, 1, 1, 1 ], [ 0, 1, 1, 1, 0 ] ];
+const EROSION_DILATION_KERNEL = [ [0, 1, 1, 1, 0 ], [ 1, 1, 1, 1, 1 ], [ 1, 1, 1, 1, 1 ], [ 1, 1, 1, 1, 1 ], [ 0, 1, 1, 1, 0 ] ];
 
 const DEFAULT_OPTIONS = { noiseResolution: 35, noiseResolutionBlack: 18, noiseThreshold: 20 };
 
 // FIXME: async
-// FIXME: bottom cutoff
 function generate(baseImgPath, seed, options)
 {
 	seed = seed || Math.random();
@@ -173,11 +172,11 @@ function generate(baseImgPath, seed, options)
 	cleanNoise(resImg);
 
 	// 5
-	convolve(resImg, KERNEL, 1);
-	convolve(resImg, KERNEL, 1);
-	convolve(resImg, KERNEL, 1);
-	convolve(resImg, KERNEL, 1);
-	convolve(resImg, KERNEL, 1);
+	convolve(resImg, EROSION_DILATION_KERNEL, 1);
+	convolve(resImg, EROSION_DILATION_KERNEL, 1);
+	convolve(resImg, EROSION_DILATION_KERNEL, 1);
+	convolve(resImg, EROSION_DILATION_KERNEL, 1);
+	convolve(resImg, EROSION_DILATION_KERNEL, 1);
 
 	// 6
 	floodFill(resImg, borderPoints.image, { r: 255, g: 255, b: 0, a: 255 });
@@ -186,10 +185,10 @@ function generate(baseImgPath, seed, options)
 	removeHoles(resImg);
 
 	// 8
-	convolve(resImg, KERNEL, 1, true);
-	convolve(resImg, KERNEL, 1, true);
-	convolve(resImg, KERNEL, 1, true);
-	convolve(resImg, KERNEL, 1, true);
+	convolve(resImg, EROSION_DILATION_KERNEL, 1, true);
+	convolve(resImg, EROSION_DILATION_KERNEL, 1, true);
+	convolve(resImg, EROSION_DILATION_KERNEL, 1, true);
+	convolve(resImg, EROSION_DILATION_KERNEL, 1, true);
 
 	return resImg;
 }

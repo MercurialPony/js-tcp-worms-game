@@ -10,9 +10,14 @@ function extend(obj)
 		FS.writeFileSync(path, data);
 	};
 
+	obj.copy = function()
+	{
+		return extend({ width: this.width, height: this.height, data: this.data = Buffer.concat([ this.data ]) }); // TODO: gamma?
+	}
+
 	obj.constrain = function(x, y)
 	{
-		return { x: clamp(x, 0, this.width), y: clamp(y, 0, this.height) };
+		return { x: clamp(x, 0, this.width - 1), y: clamp(y, 0, this.height - 1) };
 	}
 
 	obj.getIndex = function(x, y)
@@ -65,7 +70,6 @@ function extend(obj)
 
 // WARNING: Kernel must be odd and square
 // TODO: generalize, this only works on the red channel
-// TODO: a shitton of repeated lookups
 // Edge handling is extension (as opposed to wrapping, mirroring, cropping, etc.)
 function convolve(img, kernel, divisor, inverse = false)
 {

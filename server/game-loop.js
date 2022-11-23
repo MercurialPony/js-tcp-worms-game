@@ -4,6 +4,51 @@ module.exports = class GameLoop
 	{
 		this.tickLengthMs = 1000 / tickRate;
 		this.update = update;
+		this.running = false;
+	}
+
+	start()
+	{
+		this._lastTickTime = Date.now();
+		this.running = true;
+		this._timer = setTimeout(this._loop.bind(this), this.tickLengthMs);
+	}
+
+	end()
+	{
+		this.running = false;
+	}
+
+	_loop()
+	{
+		if(!this.running)
+		{
+			return;
+		}
+
+		const currentTimeBefore = Date.now();
+		const deltaTime = currentTimeBefore - this._lastTickTime;
+		this._lastTickTime = currentTimeBefore;
+		this.update(deltaTime);
+		const currentTimeAfter = Date.now();
+
+		const waitTime = this.tickLengthMs - (currentTimeAfter - currentTimeBefore);
+		if(waitTime > 0)
+		{
+			setTimeout(this._loop.bind(this), waitTime);
+		}
+		else
+		{
+			this._loop();
+			console.log("Game is struggling to process updates!");
+		}
+	}
+
+	/*
+	constructor(tickRate, update)
+	{
+		this.tickLengthMs = 1000 / tickRate;
+		this.update = update;
 		
 		this._running = false;
 	}
@@ -52,4 +97,5 @@ module.exports = class GameLoop
 			setImmediate(this._loop.bind(this));
 		}
 	}
+	*/
 }

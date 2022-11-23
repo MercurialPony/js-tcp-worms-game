@@ -1,13 +1,13 @@
 const messageHandlers = [];
 
-function handler(id, parser, handler)
+function handler(id, parser, msgHandler)
 {
-	messageHandlers[id] = (user, data) => handler(user, parser(data));
+	messageHandlers[id] = (user, data) => msgHandler(user, parser(data));
 }
 
-function json(id, handler)
+function json(id, msgHandler)
 {
-	handler(id, data => JSON.parse(data.toString()), handler);
+	handler(id, data => JSON.parse(data.toString()), msgHandler);
 }
 
 function handle(user, id, data)

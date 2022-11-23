@@ -8,46 +8,71 @@ const socket = new Socket();
 const ipInput = document.getElementById("ip");
 const portInput = document.getElementById("port");
 const userInput = document.getElementById("username");
+let id = 0;
+let contentLength = 0;
+let accumulatedContent = Buffer.alloc(0);
 
-function loadAnima(event) {
-  event.preventDefault();
+function send(socket, type, data) {
+  const id = Buffer.alloc(1);
+  id[0] = type;
 
-  const playBtn = document.querySelector(".play-btn");
-  playBtn.onclick = () => {
-    this.innerHTML =
-      '<sl-spinner style="font-size: 3rem; --indicator-color: deeppink; --track-color: pink;"></sl-spinner>';
-  };
-}
+  const dataLength = Buffer.alloc(2);
+  dataLength.writeInt16BE(data.length);
 
-function strToBuff(data) {
-  const buff = Buffer.alloc(1);
-  buff[0] = 0;
-  const resBuff = Buffer.concat([
-    buff,
-    Buffer.from(JSON.stringify({ username: data }), "utf-8"),
-  ]);
-
-  return socket.write(resBuff);
+  const finalData = Buffer.concat([id, dataLength, data]);
+  socket.write(finalData);
 }
 
 function getInputsValues(event) {
-  event.preventDefault();
+  const form = document.getElementById("form");
+  form.addEventListener("submit", () => {
+    event.preventDefault();
+  });
 
   socket.connect({ port: portInput.value, host: ipInput.value }, () => {
     console.log("Connected to server");
+    send(
+      socket,
+      0,
+      Buffer.from(
+        JSON.stringify({
+          username: userInput.value + Math.floor(Math.random() * 1000),
+        })
+      )
+    );
+
+    const playBtn = document.querySelector(".play-btn");
+    playBtn.onclick = () => {
+      this.innerHTML =
+        '<sl-spinner style="font-size: 3rem; --indicator-color: deeppink; --track-color: pink;"></sl-spinner>';
+    };
   });
 
-  // const userBuff = strToBuff(userInput.value);
+  socket.on("data", (data) => {
+    if (accumulatedContent.length === 0) {
+      id = data.subarray(0, 1)[0];
+      contentLength = data.subarray(1, 3).readInt16BE();
+      accumulatedContent = Buffer.concat([
+        accumulatedContent,
+        data.subarray(3),
+      ]);
+    } else if (accumulatedContent.length < contentLength) {
+      accumulatedContent = Buffer.concat([accumulatedContent, data]);
+    }
+    if (accumulatedContent.length === contentLength) {
+      socket.emit("message", 0, accumulatedContent); //FIXME test zero buffer
+      accumulatedContent = Buffer.alloc(0);
+    }
+  });
 
   console.log("IP - ", ipInput.value);
   console.log("PORT - ", portInput.value);
   console.log("Username - ", userInput.value);
-  // console.log({ username: userBuff });
 
   socket.on("data", async (msg) => {
     const data = msg.subarray(1, msg.length);
     const newPng = new png();
-	console.log("bruh");
+    console.log("bruh");
 
     const image = await Util.promisify(newPng.parse).bind(newPng)(data);
     const imgData = png.sync.write(image);
@@ -55,9 +80,20 @@ function getInputsValues(event) {
     Promise.resolve(fs.writeFileSync("./main_img.png", imgData)).then(() => {
       window.location.href = "../../index.html";
     });
+  });
 
+  socket.on("message", (id, content) => {
+    console.log(
+      "Received message with id:",
+      id,
+      "\nLength:",
+      content.length,
+      "\nContent:",
+      content.toString(),
+      "\n"
+    );
   });
 }
 
-form.addEventListener("submit", loadAnima);
 form.addEventListener("submit", getInputsValues);
+// form.addEventListener("submit", loadAnima);

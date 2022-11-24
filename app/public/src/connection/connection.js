@@ -8,9 +8,25 @@ const socket = new Socket();
 const ipInput = document.getElementById("ip");
 const portInput = document.getElementById("port");
 const userInput = document.getElementById("username");
+var players = [];
 let id = 0;
 let contentLength = 0;
 let accumulatedContent = Buffer.alloc(0);
+const form = document.getElementById("form");
+
+function saveData(data) {
+  let arr = [];
+
+  arr = localStorage.getItem("playerArr");
+
+  if (!arr) {
+    localStorage.setItem("playerArr", JSON.stringify([userInput.value]));
+  } else {
+    arr = JSON.parse(arr);
+    arr.push(data);
+    localStorage.setItem("playerArr", JSON.stringify(arr));
+  }
+}
 
 function send(socket, type, data) {
   const id = Buffer.alloc(1);
@@ -24,7 +40,6 @@ function send(socket, type, data) {
 }
 
 function getInputsValues(event) {
-  const form = document.getElementById("form");
   form.addEventListener("submit", () => {
     event.preventDefault();
   });
@@ -41,11 +56,9 @@ function getInputsValues(event) {
       )
     );
 
-    const playBtn = document.querySelector(".play-btn");
-    playBtn.onclick = () => {
-      this.innerHTML =
-        '<sl-spinner style="font-size: 3rem; --indicator-color: deeppink; --track-color: pink;"></sl-spinner>';
-    };
+    saveData(userInput.value);
+
+    window.location.href = "../await-room/await-room.html";
   });
 
   socket.on("data", (data) => {
@@ -69,19 +82,6 @@ function getInputsValues(event) {
   console.log("PORT - ", portInput.value);
   console.log("Username - ", userInput.value);
 
-  socket.on("data", async (msg) => {
-    const data = msg.subarray(1, msg.length);
-    const newPng = new png();
-    console.log("bruh");
-
-    const image = await Util.promisify(newPng.parse).bind(newPng)(data);
-    const imgData = png.sync.write(image);
-
-    Promise.resolve(fs.writeFileSync("./main_img.png", imgData)).then(() => {
-      window.location.href = "../../index.html";
-    });
-  });
-
   socket.on("message", (id, content) => {
     console.log(
       "Received message with id:",
@@ -95,5 +95,26 @@ function getInputsValues(event) {
   });
 }
 
-form.addEventListener("submit", getInputsValues);
+if (form) {
+  form.addEventListener("submit", getInputsValues);
+}
 // form.addEventListener("submit", loadAnima);
+
+// const playBtn = document.querySelector(".play-btn");
+// playBtn.onclick = () => {
+//   this.innerHTML =
+//     '<sl-spinner style="font-size: 3rem; --indicator-color: deeppink; --track-color: pink;"></sl-spinner>';
+// };
+
+// socket.on("data", async (msg) => {
+//   const data = msg.subarray(1, msg.length);
+//   const newPng = new png();
+//   console.log("bruh");
+
+//   const image = await Util.promisify(newPng.parse).bind(newPng)(data);
+//   const imgData = png.sync.write(image);
+
+//   Promise.resolve(fs.writeFileSync("./main_img.png", imgData)).then(() => {
+//     window.location.href = "../../index.html";
+//   });
+// });

@@ -1,0 +1,41 @@
+<link rel="stylesheet" href="./await-room.css" />
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.83/dist/themes/light.css"
+/>
+<body>
+  <div class="btn-back-div">
+    <sl-icon-button
+      id="btn_back"
+      class="icon_back"
+      href="../home/home.html"
+      name="arrow-left-square"
+      label="back-btn"
+      type="submit"
+      style="font-size: 1.5rem"
+    ></sl-icon-button>
+  </div>
+
+  <div id="timer"></div>
+
+  <div class="await-room-main">
+    <div class="await-room-main-title">
+      <h1 class="main-title">Ждем подключения игроков...</h1>
+    </div>
+
+    <div class="user-list-div">
+      <sl-card class="user-card">
+        <div slot="header" class="user-card-header">Игроки</div>
+        <ul id="user-list" class="user-list"></ul>
+      </sl-card>
+    </div>
+  </div>
+
+  <script type="module" src="./await-room.js"></script>
+  <script type="module" src="./timer.js"></script>
+
+  <script
+    type="module"
+    src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.83/dist/shoelace.js"
+  ></script>
+</body>

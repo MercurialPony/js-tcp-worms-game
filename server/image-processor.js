@@ -15,13 +15,13 @@ function extend(obj)
 		return extend({ width: this.width, height: this.height, data: this.data = Buffer.concat([ this.data ]) }); // TODO: gamma?
 	}
 
-	obj.constrain = function(x, y)
-	{
-		return { x: clamp(x, 0, this.width - 1), y: clamp(y, 0, this.height - 1) };
-	}
-
+	// Default edge handling is: EXTENSION
+	// TODO: add WRAP, MIRROR, CROP, etc.
 	obj.getIndex = function(x, y)
 	{
+		x = clamp(x, 0, this.width - 1);
+		y = clamp(y, 0, this.height - 1);
+
 		return (x + y * this.width) * 4;
 	};
 
@@ -70,8 +70,7 @@ function extend(obj)
 
 // WARNING: Kernel must be odd and square
 // TODO: generalize, this only works on the red channel
-// Edge handling is extension (as opposed to wrapping, mirroring, cropping, etc.)
-function convolve(img, kernel, divisor, inverse = false)
+function convolve(img, kernel, divisor = 1, inverse = false)
 {
 	const newData = Buffer.alloc(img.width * img.height * 4);
 	const kr = (kernel.length - 1) / 2;
@@ -84,8 +83,7 @@ function convolve(img, kernel, divisor, inverse = false)
 		{
 			for(let kx = 0; kx < kernel.length; ++kx)
 			{
-				const constrainedCoord = img.constrain(x + kx - kr, y + ky - kr);
-				const color = img.getColor(constrainedCoord.x, constrainedCoord.y);
+				const color = img.getColor(x + kx - kr, y + ky - kr);
 				const k = kernel[kx][ky];
 				// const add = reducer(accum, color.r, k, constrainedCoord.x, constrainedCoord.y, x, y, kx, ky);
 				accum += (inverse ? 255 - color.r : color.r) * k;

@@ -25,3 +25,5 @@ const server = Net.createServer(socket =>
 });
 
 server.listen(port, () => console.log("Server is running on PORT", port));
+
+GameManager.initLevel();

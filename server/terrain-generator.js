@@ -172,11 +172,11 @@ function generate(baseImgPath, seed, options)
 	cleanNoise(resImg);
 
 	// 5
-	convolve(resImg, EROSION_DILATION_KERNEL, 1);
-	convolve(resImg, EROSION_DILATION_KERNEL, 1);
-	convolve(resImg, EROSION_DILATION_KERNEL, 1);
-	convolve(resImg, EROSION_DILATION_KERNEL, 1);
-	convolve(resImg, EROSION_DILATION_KERNEL, 1);
+	convolve(resImg, EROSION_DILATION_KERNEL);
+	convolve(resImg, EROSION_DILATION_KERNEL);
+	convolve(resImg, EROSION_DILATION_KERNEL);
+	convolve(resImg, EROSION_DILATION_KERNEL);
+	convolve(resImg, EROSION_DILATION_KERNEL);
 
 	// 6
 	floodFill(resImg, borderPoints.image, { r: 255, g: 255, b: 0, a: 255 });

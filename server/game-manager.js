@@ -9,13 +9,22 @@ const PositionGenerator = require("./position-generator");
 const players = [];
 
 // lobby stuff
-const minPlayersToStart = 2;
-const timeToStart = 10 * 1000; // 10 seconds
+const minPlayersToStart = 1;
+const timeToStart = 1 * 1000; // 10 seconds
 
 let startTimer = null;
 
 // game stuff
 let terrain;
+
+
+function initLevel()
+{
+	const randomType = Math.floor(Math.random() * 3) + 1;
+	console.log("chose terrain type", randomType);
+	terrain = TerrainGenerator.generate(`./terrain_bases/base_${randomType}.png`);
+	console.log("generated terrain");
+}
 
 function update(delta)
 {
@@ -24,12 +33,11 @@ function update(delta)
 
 const gameLoop = new GameLoop(20, update).start();
 
-function startGame()
+function startMatch()
 {
 	console.log("game started");
-	const randomType = Math.floor(Math.random() * 3) + 1;
-	terrain = TerrainGenerator.generate(`./terrain_bases/base_${randomType}.png`);
-	PositionGenerator.pickPoints(terrain);
+	const spawnPoints = PositionGenerator.pickPoints(terrain, players.length);
+	console.log("picked spawn points for", players.length, "players");
 	//terrain.writeToDisk("./test.png");
 }
 
@@ -37,8 +45,12 @@ function playersChanged()
 {
 	if(players.length < minPlayersToStart)
 	{
-		clearTimeout(startTimer);
-		startTimer = null;
+		if(startTimer)
+		{
+			console.log("player left. Stopped countdown");
+			clearTimeout(startTimer);
+			startTimer = null;
+		}
 	
 		return;
 	}
@@ -46,14 +58,20 @@ function playersChanged()
 	if(!startTimer)
 	{
 		console.log("players connected. Started countdown");
-		startTimer = setTimeout(startGame, timeToStart)
+		startTimer = setTimeout(startMatch, timeToStart)
 	}
 }
 
 
 MessageHandler.json(0, (user, data) =>
 {
-	user.player = {  username: data.username };
+	user.player = { username: data.username };
 	players.push(user);
 	playersChanged();
 });
+
+
+
+module.exports = {
+	initLevel
+};

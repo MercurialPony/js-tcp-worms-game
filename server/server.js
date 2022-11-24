@@ -1,7 +1,7 @@
 const Net = require("net");
 const MessageParser = require("./message-parser");
 const MessageHandler = require("./message-handler");
-const GameManager = require("./game-manager");
+const Game = require("./game-manager");
 
 
 
@@ -26,4 +26,5 @@ const server = Net.createServer(socket =>
 
 server.listen(port, () => console.log("Server is running on PORT", port));
 
-GameManager.initLevel();
+const game = new Game();
+game.init();

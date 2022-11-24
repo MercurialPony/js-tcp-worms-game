@@ -5,73 +5,86 @@ const TerrainGenerator = require("./terrain-generator");
 const PositionGenerator = require("./position-generator");
 
 
-
-const players = [];
-
-// lobby stuff
-const minPlayersToStart = 1;
-const timeToStart = 1 * 1000; // 10 seconds
-
-let startTimer = null;
-
-// game stuff
-let terrain;
-
-
-function initLevel()
+module.exports = class Game
 {
-	const randomType = Math.floor(Math.random() * 3) + 1;
-	console.log("chose terrain type", randomType);
-	terrain = TerrainGenerator.generate(`./terrain_bases/base_${randomType}.png`);
-	console.log("generated terrain");
-}
+	static minPlayersToStart = 1;
+	static timeToStart = 1 * 1000;
 
-function update(delta)
-{
-	//console.log(delta);
-}
-
-const gameLoop = new GameLoop(20, update).start();
-
-function startMatch()
-{
-	console.log("game started");
-	const spawnPoints = PositionGenerator.pickPoints(terrain, players.length);
-	console.log("picked spawn points for", players.length, "players");
-	//terrain.writeToDisk("./test.png");
-}
-
-function playersChanged()
-{
-	if(players.length < minPlayersToStart)
+	constructor()
 	{
-		if(startTimer)
+		// global stuff
+		this.players = [];
+		this.gameloop = new GameLoop(20, this._update);
+
+		// lobby stuff
+		this.startTimer = null;
+
+		// game stuff
+		this.terrain = null;
+	}
+
+	_initHandlers()
+	{
+		MessageHandler.json(0, (user, data) =>
+		{
+			user.player = { username: data.username };
+			this.players.push(user);
+			this._setTimer();
+		});
+	}
+
+	genLevel()
+	{
+		const randomType = Math.floor(Math.random() * 3) + 1;
+		console.log("chose terrain type", randomType);
+		this.terrain = TerrainGenerator.generate(`./terrain_bases/base_${randomType}.png`);
+		console.log("generated terrain");
+	}
+
+	init()
+	{
+		this._initHandlers();
+		this.genLevel();
+		// this.gameloop.start();
+	}
+
+	_update(delta)
+	{
+
+	}
+
+	removePlayer(user)
+	{
+
+	}
+
+	_setTimer()
+	{
+		const enoughPlayers = this.players.length >= Game.minPlayersToStart;
+		const timerStarted = !!this.startTimer;
+
+		if(enoughPlayers === timerStarted)
+		{
+			return;
+		}
+
+		if(enoughPlayers)
+		{
+			console.log("players connected. Started countdown");
+			this.startTimer = setTimeout(this._startMatch.bind(this), Game.timeToStart);
+		}
+		else
 		{
 			console.log("player left. Stopped countdown");
-			clearTimeout(startTimer);
-			startTimer = null;
+			clearTimeout(this.startTimer);
+			this.startTimer = null;
 		}
-	
-		return;
 	}
 
-	if(!startTimer)
+	_startMatch()
 	{
-		console.log("players connected. Started countdown");
-		startTimer = setTimeout(startMatch, timeToStart)
+		console.log("game started");
+		const spawnPoints = PositionGenerator.pickPoints(this.terrain, this.players.length);
+		console.log("picked spawn points for", this.players.length, "players");
 	}
 }
-
-
-MessageHandler.json(0, (user, data) =>
-{
-	user.player = { username: data.username };
-	players.push(user);
-	playersChanged();
-});
-
-
-
-module.exports = {
-	initLevel
-};

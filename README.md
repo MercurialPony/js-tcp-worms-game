@@ -16,8 +16,22 @@ which tells the receiving side how to handle the incoming message,
 and two bytes containing the payload length.
 The rest of the byte stream should contain the payload data itself.
 #### Example:
-![Protocol Scheme](https://i.imgur.com/DRjz2bY.png)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://i.imgur.com/DRjz2bY.png">
+  <source media="(prefers-color-scheme: light)" srcset="https://i.imgur.com/vHiXfn4.jpg">
+  <img alt="Protocol Scheme" src="https://i.imgur.com/vHiXfn4.jpg">
+</picture>
+
 #### Data sent from the client must conform to one of the following message templates:
-![Client: Message Templates](https://i.imgur.com/MdHLmOK.png)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://i.imgur.com/MdHLmOK.png">
+  <source media="(prefers-color-scheme: light)" srcset="https://i.imgur.com/PIFYUAR.png">
+  <img alt="Client: Message Templates" src="https://i.imgur.com/PIFYUAR.png">
+</picture>
+
 #### Data sent from the server must conform to one of the following message templates:
-![Server: Message Templates](https://i.imgur.com/CrNHz3V.png)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://i.imgur.com/CrNHz3V.png">
+  <source media="(prefers-color-scheme: light)" srcset="https://i.imgur.com/057ilDU.png">
+  <img alt="Server: Message Templates" src="https://i.imgur.com/057ilDU.png">
+</picture>

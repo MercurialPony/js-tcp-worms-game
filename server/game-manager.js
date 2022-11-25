@@ -1,3 +1,4 @@
+const Utils = require("./utils");
 const GameLoop = require("./game-loop");
 const MessageSender = require("./message-sender");
 const MessageHandler = require("./message-handler");
@@ -15,6 +16,8 @@ class GameContext
 	playerJoined(user) {}
 
 	playerLeft(user) {}
+
+	discard() {};
 }
 
 class Lobby extends GameContext
@@ -42,7 +45,7 @@ class Lobby extends GameContext
 		if(enoughPlayers)
 		{
 			console.log("players connected. Started countdown");
-			this._startTimer = setTimeout(this._game._startMatch.bind(this._game), Lobby.timeToStart);
+			this._startTimer = setTimeout(this._game.startMatch.bind(this._game), Lobby.timeToStart);
 		}
 		else
 		{
@@ -66,7 +69,7 @@ class Lobby extends GameContext
 
 	_notifyAllTimeToStart(timeToStart)
 	{
-		MessageSender.json(this._game._players.map(u => u.socket), 2, { timeToStart });
+		MessageSender.json(this._game._sockets, 2, { timeToStart });
 	}
 
 	playerJoined(user)
@@ -81,6 +84,11 @@ class Lobby extends GameContext
 		this._notifyAllPlayerChange(user, false);
 		this._setTimer();
 	}
+
+	discard()
+	{
+		clearTimeout(this._startTimer);
+	}
 }
 
 class Match extends GameContext
@@ -88,16 +96,45 @@ class Match extends GameContext
 	constructor(game)
 	{
 		super(game);
+
+		this._currentPlayerIdx = Utils.randIntBetween(0, game._players.length - 1);
+	}
+
+	_currentPlayer()
+	{
+		return this._game._players[this._currentPlayerIdx].player;
 	}
 
 	_notifyAllMap()
 	{
-		MessageSender.png(this._game._players.map(u => u.socket), 3, this._game._map);
+		MessageSender.png(this._game._sockets, 3, this._game._map);
 	}
 
 	_notifyAllSpawnPos()
 	{
 		this._game._players.forEach(u => MessageSender.json(u.socket, 4, { spawnPos: u.player.spawnPos }));
+	}
+
+	_notifyAllCurrentTurn()
+	{
+		MessageSender.json(this._game._sockets, 5, { currentPlayer: this._currentPlayer().username });
+	}
+
+	_advanceTurn()
+	{
+		this._currentPlayerIdx = (this._currentPlayerIdx + 1) % this._game._players.length;
+		this._notifyAllCurrentTurn();
+	}
+
+	shoot(user, direction, power)
+	{
+		if(user.player !== this._currentPlayer())
+		{
+			return;
+		}
+
+		console.log(user.player.username, "shot in", direction, "with power", power);
+		this._advanceTurn();
 	}
 
 	start()
@@ -107,6 +144,7 @@ class Match extends GameContext
 		console.log("picked spawn points for", this._game._players.length, "players");
 		this._notifyAllMap();
 		this._notifyAllSpawnPos();
+		this._notifyAllCurrentTurn();
 	}
 }
 
@@ -114,14 +152,19 @@ module.exports = class Game
 {
 	constructor()
 	{
-		// global stuff
 		this._players = [];
+		this._sockets = [];
 		this._gameloop = new GameLoop(20, this._update);
 
 		this._context = new Lobby(this);
 
-		// game stuff
 		this._map = null;
+	}
+
+	_swapContext(ctx)
+	{
+		this._context.discard();
+		this._context = ctx;
 	}
 
 	_initHandlers()
@@ -130,7 +173,16 @@ module.exports = class Game
 		{
 			user.player = { username: data.username };
 			this._players.push(user);
+			this._sockets.push(user.socket);
 			this._context.playerJoined(user);
+		});
+
+		MessageHandler.json(1, (user, data) =>
+		{
+			if(this._context instanceof Match) // FIXME: ugh
+			{
+				this._context.shoot(user, data.direction, data.power);
+			}
 		});
 	}
 
@@ -158,12 +210,13 @@ module.exports = class Game
 	playerLeft(user)
 	{
 		this._players = this._players.filter(u => u !== user);
+		this._sockets = this._players.map(u => u.socket);
 		this._context.playerLeft(user);
 	}
 
-	_startMatch()
+	startMatch()
 	{
-		this._context = new Match(this);
+		this._swapContext(new Match(this));
 		this._context.start();
 		console.log("game started");
 	}

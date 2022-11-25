@@ -5,20 +5,21 @@ const ZLib = require("zlib");
 
 function data(sockets, id, data)
 {
-	if(sockets.constructor !== Array)
+	if(typeof sockets[Symbol.iterator] !== "function") // sockets is not an iterable
 	{
 		sockets = [ sockets ];
 	}
 
+	const idBuffer = Buffer.alloc(1);
+	idBuffer[0] = id;
+
+	const dataLength = Buffer.alloc(2);
+	dataLength.writeInt16BE(data.length);
+
+	const finalData = Buffer.concat([idBuffer, dataLength, data]);
+
 	for(let socket of sockets)
 	{
-		const idBuffer = Buffer.alloc(1);
-		idBuffer[0] = id;
-
-		const dataLength = Buffer.alloc(2);
-		dataLength.writeInt16BE(data.length);
-
-		const finalData = Buffer.concat([idBuffer, dataLength, data]);
 		socket.write(finalData);
 	}
 }

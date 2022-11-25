@@ -3,27 +3,35 @@ const ZLib = require("zlib");
 
 
 
-function data(socket, id, data)
+function data(sockets, id, data)
 {
-	const idBuffer = Buffer.alloc(1);
-	idBuffer[0] = id;
+	if(sockets.constructor !== Array)
+	{
+		sockets = [ sockets ];
+	}
 
-	const dataLength = Buffer.alloc(2);
-	dataLength.writeInt16BE(data.length);
+	for(let socket of sockets)
+	{
+		const idBuffer = Buffer.alloc(1);
+		idBuffer[0] = id;
 
-	const finalData = Buffer.concat([idBuffer, dataLength, data]);
-	socket.write(finalData);
+		const dataLength = Buffer.alloc(2);
+		dataLength.writeInt16BE(data.length);
+
+		const finalData = Buffer.concat([idBuffer, dataLength, data]);
+		socket.write(finalData);
+	}
 }
 
-function json(socket, id, obj)
+function json(sockets, id, obj)
 {
 	//TODO check valid message ID
-	data(socket, id, Buffer.from(JSON.stringify(obj)));
+	data(sockets, id, Buffer.from(JSON.stringify(obj)));
 }
 
-function png(socket, id, img)
+function png(sockets, id, img)
 {
-	data(socket, id, ZLib.gzipSync(PNG.sync.write(img)));
+	data(sockets, id, ZLib.gzipSync(PNG.sync.write(img)));
 }
 
 module.exports = {

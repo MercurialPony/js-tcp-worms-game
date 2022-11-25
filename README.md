@@ -16,8 +16,8 @@ which tells the receiving side how to handle the incoming message,
 and two bytes containing the payload length.
 The rest of the byte stream should contain the payload data itself.
 #### Example:
-![Protocol Scheme](https://i.imgur.com/nMNnkSc.jpeg)
+![Protocol Scheme](https://i.imgur.com/DRjz2bY.png)
 #### Data sent from the client must conform to one of the following message templates:
-![Client: Message Templates](https://i.imgur.com/RT4aF69.png)
+![Client: Message Templates](https://i.imgur.com/MdHLmOK.png)
 #### Data sent from the server must conform to one of the following message templates:
-![Server: Message Templates](https://i.imgur.com/lkq1zsH.png)
+![Server: Message Templates](https://i.imgur.com/CrNHz3V.png)

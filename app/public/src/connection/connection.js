@@ -17,14 +17,14 @@ const form = document.getElementById("form");
 function saveData(data) {
   let arr = [];
 
-  arr = localStorage.getItem("playerArr");
+  arr = sessionStorage.getItem("playerArr");
 
   if (!arr) {
-    localStorage.setItem("playerArr", JSON.stringify([userInput.value]));
+    sessionStorage.setItem("playerArr", JSON.stringify([userInput.value]));
   } else {
     arr = JSON.parse(arr);
     arr.push(data);
-    localStorage.setItem("playerArr", JSON.stringify(arr));
+    sessionStorage.setItem("playerArr", JSON.stringify(arr));
   }
 }
 
@@ -56,7 +56,7 @@ function getInputsValues(event) {
       )
     );
 
-    saveData(userInput.value);
+    // saveData(userInput.value);
 
     window.location.href = "../await-room/await-room.html";
   });
@@ -78,10 +78,6 @@ function getInputsValues(event) {
     }
   });
 
-  console.log("IP - ", ipInput.value);
-  console.log("PORT - ", portInput.value);
-  console.log("Username - ", userInput.value);
-
   socket.on("message", (id, content) => {
     console.log(
       "Received message with id:",
@@ -92,6 +88,18 @@ function getInputsValues(event) {
       content.toString(),
       "\n"
     );
+
+    if (id === 0 || 1) {
+      sessionStorage.setItem("playerArr", content.toString());
+    }
+
+    if (id === 2) {
+      sessionStorage.setItem("timerCount", content.toString());
+    }
+
+    if (id === 3) {
+      sessionStorage.setItem("picture", content.toString());
+    }
   });
 }
 

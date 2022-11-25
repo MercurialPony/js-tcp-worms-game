@@ -1,13 +1,13 @@
-const playerArr = JSON.parse(localStorage.getItem("playerArr"));
+const playerArr = JSON.parse(sessionStorage.getItem("playerArr"));
 // const playerName = localStorage.getItem("username");
 
-console.log(playerArr);
+console.log(playerArr.players);
 // console.log(playerName);
 
 let userList = document.getElementById("user-list");
 
 if (userList) {
-  playerArr.forEach((item) => {
+  playerArr.players.forEach((item) => {
     let li = document.createElement("li");
     li.innerText = item;
     userList.appendChild(li);

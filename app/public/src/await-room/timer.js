@@ -16,7 +16,11 @@ const COLOR_CODES = {
   },
 };
 
-const TIME_LIMIT = 30;
+const timer = JSON.parse(sessionStorage.getItem("timerCount"));
+
+console.log(timer);
+
+const TIME_LIMIT = timer / 1000 || null;
 let timePassed = 0;
 let timeLeft = TIME_LIMIT;
 let timerInterval = null;

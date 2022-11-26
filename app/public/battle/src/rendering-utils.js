@@ -69,12 +69,35 @@ function getCanvasData(canvas)
 	return canvas.getContext("2d").getImageData(0, 0, canvas.width, canvas.height);
 }
 
+const tempCanvas = document.createElement("canvas");
+const tempCtx = tempCanvas.getContext("2d");
+
 function getImageData(img)
 {
 	tempCanvas.width = img.width;
 	tempCanvas.height = img.height;
 	tempCtx.drawImage(img, 0, 0);
 	return getCanvasData(tempCanvas);
+}
+
+function pngToCanvas(png)
+{
+	const canvas = document.createElement("canvas");
+	const ctx = canvas.getContext("2d");
+
+	canvas.width = png.width;
+	canvas.height = png.height;
+
+	const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+
+	for(let i = 0; i < png.data.length; ++i)
+	{
+		imageData.data[i] = png.data[i];
+	}
+
+	ctx.putImageData(imageData, 0, 0);
+
+	return canvas;
 }
 
 function clearCanvas(canvas)

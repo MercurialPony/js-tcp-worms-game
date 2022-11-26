@@ -1,31 +1,11 @@
 "use strict";
+
 const { app, BrowserWindow, globalShortcut } = require("electron");
-const IPC = require("electron").ipcMain;
-const Socket = require("net").Socket;
-const MessageParser = require("./message-parser");
-const FS = require("fs");
-const PNG = require("pngjs").PNG;
-const ZLib = require("zlib");
-const { fstat } = require("fs");
+
+
+
 
 const reboot = globalShortcut;
-
-function send(socket, id, data)
-{
-	const idBuffer = Buffer.alloc(1);
-	idBuffer[0] = id;
-  
-	const dataLength = Buffer.alloc(2);
-	dataLength.writeInt16BE(data.length);
-  
-	const finalData = Buffer.concat([idBuffer, dataLength, data]);
-	socket.write(finalData);
-}
-
-function sendJson(socket, id, obj)
-{
-	send(socket, id, Buffer.from(JSON.stringify(obj)));
-}
 
 function start()
 {
@@ -38,61 +18,12 @@ function start()
 		},
 	});
 
-	mainWindow.loadFile("public/src/home/home.html");
+	mainWindow.loadFile("public/index.html");
 
 	reboot.register("Control+4", () =>
 	{
 		console.log("Page is reloaded");
 		mainWindow.reload();
-	});
-
-
-
-	/*-----------*/
-
-	const socket = new Socket();
-
-	const parser = new MessageParser();
-	parser.on("message", (id, data) =>
-	{
-		console.log("msg", id);
-		switch(id)
-		{
-		case 0:
-			mainWindow.loadFile("public/src/await-room/await-room.html");
-			mainWindow.once("ready-to-show", () => mainWindow.webContents.send("message-0", JSON.parse(data.toString())));
-			mainWindow.webContents.send("message-0", JSON.parse(data.toString()));
-			break;
-		case 1:
-		case 2:
-			mainWindow.once("ready-to-show", () => mainWindow.webContents.send("message-" + id, JSON.parse(data.toString())));
-			mainWindow.webContents.send("message-" + id, JSON.parse(data.toString()));
-			console.log("send 1-2");
-			break;
-		case 3:
-			console.log(data);
-			FS.writeFileSync("./main_img.png", data);
-			mainWindow.loadFile("public/index.html");
-			break;
-		}
-	});
-
-	socket.on("data", data =>
-	{
-		parser.pipe(data)
-	});
-
-
-
-	/*-----------*/
-
-	IPC.on("connect", (e, ip, port, name) =>
-	{
-		console.log("connect");
-		socket.connect({ host: ip, port }, () =>
-		{
-			sendJson(socket, 0, { username: name });
-		});
 	});
 }
 

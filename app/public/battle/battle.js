@@ -1,6 +1,3 @@
-// const net = require("net");
-// const { PNG: png } = require("pngjs");
-
 let sceneRenderer;
 
 // TODO: 3x/4x upscaling
@@ -9,7 +6,7 @@ let sceneRenderer;
 window.onload = async () => {
   const bgPromise = loadImage("./textures/background.svg");
   const groundPromise = loadImage("./textures/ground.png");
-  const maskPromise = loadImage("../main_img.png");
+  const maskPromise = pngToCanvas(parent.mainImg); // loadImage("../main_img.png");
 
   const terrainRenderer = new TerrainRenderer();
   terrainRenderer.prepare(await maskPromise, await groundPromise, true);

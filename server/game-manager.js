@@ -22,8 +22,8 @@ class GameContext
 
 class Lobby extends GameContext
 {
-	static minPlayersToStart = 2;
-	static timeToStart = 30 * 1000;
+	static minPlayersToStart = 1;
+	static timeToStart = 5 * 1000;
 
 	constructor(game)
 	{

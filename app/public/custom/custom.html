@@ -1,5 +1,5 @@
 <link rel="stylesheet" href="custom.css" />
-<link rel="stylesheet" href="../../style.css" />
+<link rel="stylesheet" href="../style.css">
 <link
   rel="stylesheet"
   href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.83/dist/themes/light.css"
@@ -31,7 +31,7 @@
     const closeButton = dialog.querySelector('sl-button[slot="footer"]');
 
     openButton.addEventListener("click", () => dialog.show());
-    closeButton.addEventListener("click", `href="src/home/home.html"`);
+    closeButton.addEventListener("click", `href="home/home.html"`);
 
     // Prevent the dialog from closing when the user clicks on the overlay
     dialog.addEventListener("sl-request-close", (event) => {

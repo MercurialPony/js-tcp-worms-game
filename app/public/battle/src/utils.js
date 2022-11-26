@@ -1,6 +1,3 @@
-const tempCanvas = document.createElement("canvas");
-const tempCtx = tempCanvas.getContext("2d");
-
 function randIntBetween(min, max) // min - inclusive, max - inclusive
 {
 	return Math.floor(Math.random() * (max - min + 1)) + min;

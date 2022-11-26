@@ -3,6 +3,10 @@ const { app, BrowserWindow, globalShortcut } = require("electron");
 const IPC = require("electron").ipcMain;
 const Socket = require("net").Socket;
 const MessageParser = require("./message-parser");
+const FS = require("fs");
+const PNG = require("pngjs").PNG;
+const ZLib = require("zlib");
+const { fstat } = require("fs");
 
 const reboot = globalShortcut;
 
@@ -55,16 +59,28 @@ function start()
 		switch(id)
 		{
 		case 0:
-			console.log("change page");
 			mainWindow.loadFile("public/src/await-room/await-room.html");
 			mainWindow.once("ready-to-show", () => mainWindow.webContents.send("message-0", JSON.parse(data.toString())));
+			mainWindow.webContents.send("message-0", JSON.parse(data.toString()));
 			break;
 		case 1:
-			mainWindow.webContents.send("message-1", JSON.parse(data.toString()));
+		case 2:
+			mainWindow.once("ready-to-show", () => mainWindow.webContents.send("message-" + id, JSON.parse(data.toString())));
+			mainWindow.webContents.send("message-" + id, JSON.parse(data.toString()));
+			console.log("send 1-2");
+			break;
+		case 3:
+			console.log(data);
+			FS.writeFileSync("./main_img.png", data);
+			mainWindow.loadFile("public/index.html");
+			break;
 		}
 	});
 
-	socket.on("data", data => parser.pipe(data));
+	socket.on("data", data =>
+	{
+		parser.pipe(data)
+	});
 
 
 

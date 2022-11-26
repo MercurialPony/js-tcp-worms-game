@@ -22,8 +22,8 @@ class GameContext
 
 class Lobby extends GameContext
 {
-	static minPlayersToStart = 3;
-	static timeToStart = 10 * 1000;
+	static minPlayersToStart = 2;
+	static timeToStart = 30 * 1000;
 
 	constructor(game)
 	{
@@ -59,6 +59,7 @@ class Lobby extends GameContext
 
 	_notifyPlayerList(user)
 	{
+		console.log("sent list");
 		MessageSender.json(user.socket, 0, { players: this._game._players.map(u => u.player.username) });
 	}
 

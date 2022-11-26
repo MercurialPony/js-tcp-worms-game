@@ -32,7 +32,7 @@ function json(sockets, id, obj)
 
 function png(sockets, id, img)
 {
-	data(sockets, id, ZLib.gzipSync(PNG.sync.write(img)));
+	data(sockets, id, PNG.sync.write(img)); //ZLib.gzipSync());
 }
 
 module.exports = {

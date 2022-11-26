@@ -13,9 +13,6 @@ form.addEventListener("submit", event => event.preventDefault());
 function getInputsValues(event)
 {
 	IPC.send("connect", ipInput.value, portInput.value, userInput.value);
-
-	//IPC.on("connect-success", (e) => );
-	//window.location.href = "../await-room/await-room.html"
 }
 
 if (form)

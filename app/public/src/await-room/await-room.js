@@ -11,7 +11,16 @@ function addPlayer(name)
 
 function removePlayer(name)
 {
-	userList.getElementsByTagName("li").filter(el => el.innerText === name).forEach(el => userList.removeChild(el));
+	const elements = userList.getElementsByTagName("li");
+
+	for(let i = elements.length - 1; i >= 0; ++i)
+	{
+		const element = elements[i];
+		if(element.innerText === name)
+		{
+			userList.removeChild(element);
+		}
+	}
 }
 
 IPC.on("message-0", (e, data) =>
@@ -31,6 +40,14 @@ IPC.on("message-1", (e, data) =>
 	{
 		removePlayer(data.username);
 	}
+});
+
+IPC.on("message-2", (e, data) =>
+{
+	console.log(data);
+	timeLimit = timeLeft = data.timeToStart / 1000;
+	timePassed = 0;
+	console.log(timeLeft, timeLimit);
 });
 
 // const btn_back = document.getElementById("btn_back");

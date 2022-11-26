@@ -1,26 +1,37 @@
-const playerArr = JSON.parse(sessionStorage.getItem("playerArr"));
-// const playerName = localStorage.getItem("username");
+const IPC = require("electron").ipcRenderer;
 
-console.log(playerArr.players);
-// console.log(playerName);
+const userList = document.getElementById("user-list");
 
-let userList = document.getElementById("user-list");
-
-if (userList) {
-  playerArr.players.forEach((item) => {
-    let li = document.createElement("li");
-    li.innerText = item;
-    userList.appendChild(li);
-  });
+function addPlayer(name)
+{
+	const li = document.createElement("li");
+	li.innerText = name;
+	userList.appendChild(li);
 }
 
-// function removePlayer(name) {
-//   const found = playerArr.findIndex((username) => username === name);
+function removePlayer(name)
+{
+	userList.getElementsByTagName("li").filter(el => el.innerText === name).forEach(el => userList.removeChild(el));
+}
 
-//   playerArr.splice(found, 1);
+IPC.on("message-0", (e, data) =>
+{
+	data.players.forEach(name => addPlayer(name));
+});
 
-//   return playerArr;
-// }
+IPC.on("message-1", (e, data) =>
+{
+	console.log(data);
+
+	if(data.joined)
+	{
+		addPlayer(data.username);
+	}
+	else
+	{
+		removePlayer(data.username);
+	}
+});
 
 // const btn_back = document.getElementById("btn_back");
 // if (btn_back) {

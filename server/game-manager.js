@@ -22,7 +22,7 @@ class GameContext
 
 class Lobby extends GameContext
 {
-	static minPlayersToStart = 2;
+	static minPlayersToStart = 3;
 	static timeToStart = 10 * 1000;
 
 	constructor(game)
@@ -175,6 +175,7 @@ module.exports = class Game
 			this._players.push(user);
 			this._sockets.push(user.socket);
 			this._context.playerJoined(user);
+			console.log(user.player.username, "joined");
 		});
 
 		MessageHandler.json(1, (user, data) =>
@@ -212,6 +213,7 @@ module.exports = class Game
 		this._players = this._players.filter(u => u !== user);
 		this._sockets = this._players.map(u => u.socket);
 		this._context.playerLeft(user);
+		console.log(user.player.username, "left");
 	}
 
 	startMatch()

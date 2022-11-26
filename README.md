@@ -24,14 +24,14 @@ The rest of the byte stream should contain the payload data itself.
 
 #### Data sent from the client must conform to one of the following message templates:
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://i.imgur.com/MdHLmOK.png">
-  <source media="(prefers-color-scheme: light)" srcset="https://i.imgur.com/PIFYUAR.png">
-  <img alt="Client: Message Templates" src="https://i.imgur.com/PIFYUAR.png">
+  <source media="(prefers-color-scheme: dark)" srcset="https://i.imgur.com/g7a4pAa.png">
+  <source media="(prefers-color-scheme: light)" srcset="https://i.imgur.com/MOJiF3f.png">
+  <img alt="Client: Message Templates" src="https://i.imgur.com/MOJiF3f.png">
 </picture>
 
 #### Data sent from the server must conform to one of the following message templates:
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://i.imgur.com/CrNHz3V.png">
-  <source media="(prefers-color-scheme: light)" srcset="https://i.imgur.com/057ilDU.png">
-  <img alt="Server: Message Templates" src="https://i.imgur.com/057ilDU.png">
+  <source media="(prefers-color-scheme: dark)" srcset="https://i.imgur.com/sbMDIiM.png">
+  <source media="(prefers-color-scheme: light)" srcset="https://i.imgur.com/hcbl4yv.png">
+  <img alt="Server: Message Templates" src="https://i.imgur.com/hcbl4yv.png">
 </picture>

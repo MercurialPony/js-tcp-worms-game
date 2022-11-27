@@ -62,9 +62,7 @@
       const homeButton = dialog.querySelector('sl-button[slot="footer"]');
       const closeButton = dialog.querySelector('sl-button[slot="footer"]');
 
-      openButton.addEventListener("click", () =>
-        dialog.show(console.log("lock"))
-      );
+      openButton.addEventListener("click", () => dialog.show());
       closeButton.addEventListener("click", () => dialog.hide());
 
       dialog.addEventListener("sl-request-close", (event) => {

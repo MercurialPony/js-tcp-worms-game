@@ -16,14 +16,14 @@
     ></sl-icon-button>
   </div>
 
-  <div id="timer"></div>
+  <div id="timer" style="display: none"></div>
 
   <div class="await-room-main">
-    <div class="await-room-main-title">
-      <h1 class="main-title">Ждем подключения игроков...</h1>
+    <div id="await-title" class="await-room-main-title">
+      <h1 class="main-title">Ждем подключения игроков</h1>
     </div>
 
-    <div class="user-list-div">
+    <div id="user-list-id" class="user-list-div">
       <sl-card class="user-card">
         <div slot="header" class="user-card-header">Игроки</div>
         <ul id="user-list" class="user-list"></ul>

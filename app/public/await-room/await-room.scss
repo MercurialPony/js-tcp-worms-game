@@ -91,10 +91,11 @@ body {
 
 //Main
 .await-room-main {
-  text-align: center;
+  // text-align: center;
   // min-height: 100vh;
 
   .await-room-main-title {
+    margin-left: 250px;
     margin-top: 50px;
 
     .main-title {
@@ -102,9 +103,32 @@ body {
       font-weight: bold;
       color: rgb(255, 255, 255);
     }
+
+    .main-title:after {
+      overflow: hidden;
+      display: inline-block;
+      vertical-align: bottom;
+      -webkit-animation: ellipsis steps(4, end) 900ms infinite;
+      animation: ellipsis steps(4, end) 900ms infinite;
+      content: "\2026"; /* ascii code for the ellipsis character */
+      width: 0px;
+    }
+
+    @keyframes ellipsis {
+      to {
+        width: 80px;
+      }
+    }
+
+    @-webkit-keyframes ellipsis {
+      to {
+        width: 80px;
+      }
+    }
   }
 
   .user-list-div {
+    text-align: center;
     .user-card {
       box-shadow: 0px 1px 2px 0px rgba(224, 47, 47, 0.7),
         1px 2px 4px 0px rgba(224, 47, 47, 0.7),

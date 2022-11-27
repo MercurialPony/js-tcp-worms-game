@@ -1,3 +1,4 @@
+@charset "UTF-8";
 .btn-back-div sl-icon-button::part(base) {
   color: #ffffff;
 }
@@ -84,16 +85,36 @@ body {
   padding: 5px 5px;
 }
 
-.await-room-main {
-  text-align: center;
-}
 .await-room-main .await-room-main-title {
+  margin-left: 250px;
   margin-top: 50px;
 }
 .await-room-main .await-room-main-title .main-title {
   font-size: 60px;
   font-weight: bold;
   color: rgb(255, 255, 255);
+}
+.await-room-main .await-room-main-title .main-title:after {
+  overflow: hidden;
+  display: inline-block;
+  vertical-align: bottom;
+  -webkit-animation: ellipsis steps(4, end) 900ms infinite;
+  animation: ellipsis steps(4, end) 900ms infinite;
+  content: "…"; /* ascii code for the ellipsis character */
+  width: 0px;
+}
+@keyframes ellipsis {
+  to {
+    width: 80px;
+  }
+}
+@-webkit-keyframes ellipsis {
+  to {
+    width: 80px;
+  }
+}
+.await-room-main .user-list-div {
+  text-align: center;
 }
 .await-room-main .user-list-div .user-card {
   box-shadow: 0px 1px 2px 0px rgba(224, 47, 47, 0.7), 1px 2px 4px 0px rgba(224, 47, 47, 0.7), 1px 2px 4px 0px rgba(224, 47, 47, 0.7), 2px 4px 16px 0px rgba(224, 47, 47, 0.7);

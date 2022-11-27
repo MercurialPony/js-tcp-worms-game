@@ -26,6 +26,13 @@ window.onload = async () => {
   render();
 };
 
+var handler = parent.provideHandler();
+
+handler.json(4, data =>
+{
+	console.log(data.spawnPos);
+});
+
 window.onmousemove = (event) => {
   if (leftMouseDown) {
     sceneRenderer.changeDrag(event.movementX, event.movementY);

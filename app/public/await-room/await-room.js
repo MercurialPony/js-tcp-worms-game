@@ -24,10 +24,17 @@ handler.json(2, (data) => {
 });
 
 handler.json(3, (data) => {
-  document.getElementById("timer").removeAttribute("style");
-  document.getElementById("await-title").remove();
-  let user_list = document.getElementById("user-list-id");
-  user_list.style.marginTop = "50px";
+  console.log(data.timeToStart);
+  if (data.timeToStart != -1) {
+    document.getElementById("timer").removeAttribute("style");
+    document.getElementById("await-title").style.display = "none";
+    let user_list = document.getElementById("user-list-id");
+    user_list.style.marginTop = "50px";
+  } else {
+    document.getElementById("timer").style.display = "none";
+    document.getElementById("await-title").removeAttribute("style");
+  }
+
   timeLimit = timeLeft = data.timeToStart / 1000;
   timePassed = 0;
 });

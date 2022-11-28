@@ -19,7 +19,7 @@ const server = Net.createServer(socket =>
 	const parser = new MessageParser();
 	parser.on("message", (id, data) => MessageHandler.handle(user, id, data));
 
-	socket.on("data", data => parser.pipe(data));
+	socket.on("data", parser.pipe.bind(parser));
 	socket.on("error", error => console.error("Error:", ip, error.code));
 	socket.on("close", () => game.playerLeft(user));
 });

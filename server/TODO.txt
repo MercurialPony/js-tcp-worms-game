@@ -1,6 +1,9 @@
-readd zlib
-fix leave not removing player/not sending
-hide timer
-turn timer
-move players to lobby ctx
-sync timer
+re-add zlib
+
+client:
+close lobby/game if socket disconnect
+message when joining a started game
+sync gui timer
+
+server:
+turn timeout/timer

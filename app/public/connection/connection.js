@@ -4,11 +4,17 @@ const userInput = document.getElementById("username");
 
 const form = document.getElementById("form");
 form.addEventListener("submit", e => e.preventDefault());
-form.addEventListener("submit", () =>
+form.addEventListener("submit", () => parent.connect(ipInput.value, portInput.value, userInput.value));
+
+var handler = parent.provideHandler();
+
+handler.json(0, data =>
 {
-	parent.socket.connect({ host: ipInput.value, port: portInput.value }, () =>
+	if(data.accepted)
 	{
-		parent.sendJson(0, { username: userInput.value });
 		window.location.href = "await-room/await-room.html";
-	});
+		return;
+	}
+
+	// highlight error
 });

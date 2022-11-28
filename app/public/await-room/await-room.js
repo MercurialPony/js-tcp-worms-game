@@ -14,16 +14,16 @@ function removePlayer(name) {
 
 var handler = parent.provideHandler();
 
-handler.json(0, (data) => {
+handler.json(1, (data) => {
   data.players.forEach((name) => addPlayer(name));
 });
 
-handler.json(1, (data) => {
+handler.json(2, (data) => {
   const func = data.joined ? addPlayer : removePlayer;
   func(data.username);
 });
 
-handler.json(2, (data) => {
+handler.json(3, (data) => {
   document.getElementById("timer").removeAttribute("style");
   document.getElementById("await-title").remove();
   let user_list = document.getElementById("user-list-id");

@@ -28,7 +28,7 @@ window.onload = async () => {
 
 var handler = parent.provideHandler();
 
-handler.json(4, data =>
+handler.json(5, data =>
 {
 	console.log(data.spawnPos);
 });

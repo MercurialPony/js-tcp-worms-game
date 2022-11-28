@@ -17,7 +17,7 @@ function frameChanged(url)
 	const s = url.toString();
 	if(s.endsWith("home.html") || s.endsWith("connection.html"))
 	{
-		socket.destroy();
+		disconnect();
 	}
 }
 
@@ -41,17 +41,20 @@ var mainImg;
 const parser = new MessageParser();
 parser.on("message", (id, data) =>
 {
+	console.log("msg", id, data.length > 512 ? "Data too long" : data.toString());
+
 	const frame = getFrame();
 
 	// special case FIXME: bad
-	if(id === 3)
+	if(id === 4)
 	{
-		console.log("got img", data.length);
 		mainImg = PNG.sync.read(data);
 		frame.location.href = "battle/battle.html";
 	}
 
 	const handler = frame.handler;
+
+	console.log(handler);
 
 	if(!handler || !handler.handle(id, data))
 	{
@@ -68,8 +71,26 @@ parser.on("message", (id, data) =>
 
 /*------------*/
 
-var socket = new Socket();
-socket.on("data", dataChunk => parser.pipe(dataChunk));
+var socket;
+
+function connect(host, port, username)
+{
+	if(!socket)
+	{
+		socket = new Socket();
+		socket.on("data", parser.pipe.bind(parser));
+	}
+	
+	socket.connect({ host, port }, () => sendJson(0, { username }));
+}
+
+function disconnect()
+{
+	if(socket)
+	{
+		socket.destroy();
+	}
+}
 
 
 
@@ -77,6 +98,11 @@ socket.on("data", dataChunk => parser.pipe(dataChunk));
 
 function send(id, data)
 {
+	if(!socket)
+	{
+		return;
+	}
+
 	const idBuffer = Buffer.alloc(1);
 	idBuffer[0] = id;
 

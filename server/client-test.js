@@ -6,15 +6,15 @@ const ReadLine = require("readline");
 const socket = new Socket();
 const prompter = ReadLine.createInterface({ input: process.stdin, output: process.stdout });
 
-const ip = process.argv[2] || "localhost";
-const username = process.argv[3] || "hewwo" + Math.floor(Math.random() * 1000);
+const username = process.argv[2] || "hewwo" + Math.floor(Math.random() * 1000);
+const ip = process.argv[3] || "localhost";
 
 const parser = new MessageParser();
 parser.on("message", (id, data) =>
 {
 	console.log("msg", id, data.length > 512 ? "Data too long" : data.toString());
 
-	if(id === 5)
+	if(id === 6)
 	{
 		prompter.question("Enter anything to send shoot message\n", () =>
 		{

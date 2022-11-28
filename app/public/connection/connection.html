@@ -22,17 +22,64 @@
   <div class="connect-fields">
     <form id="form">
       <div class="input-ip">
+        <sl-dialog id="dialog-id" class="dialog-ip" style="--width: 800px">
+          <div style="height: 500px; position: relative" class="dialog-div">
+            <div class="container">
+              <h2>ВЫБЕРИТЕ СЕРВЕР</h2>
+              <ul class="responsive-table">
+                <li class="table-header">
+                  <div class="col col-1">
+                    <sl-icon style="font-size: 30px" name="list-ol"></sl-icon>
+                  </div>
+                  <div class="col col-2" style="font-size: 20px">
+                    Название сервера
+                  </div>
+                  <div class="col col-3" style="font-size: 20px">
+                    Кол-во игроков
+                  </div>
+                </li>
+                <li class="table-row">
+                  <div class="col col-1" data-label="Job Id">1</div>
+                  <div class="col col-2" data-label="Customer Name">
+                    Hookha Time
+                  </div>
+                  <div class="col col-3" data-label="Amount">2/3</div>
+                </li>
+              </ul>
+
+              <div
+                class="choose-btn"
+                style="
+                  position: relative;
+                  bottom: 0px;
+                  left: 0;
+                  right: 0;
+                  margin: 0 auto;
+                "
+              >
+                <sl-button class="btn-stay" slot="footer" variant="success">
+                  ВЫБРАТЬ
+                </sl-button>
+              </div>
+            </div>
+          </div>
+        </sl-dialog>
+
         <sl-input
           id="ip"
           name="ip"
           class="input-data"
-          placeholder="Введите IP сервера"
+          placeholder="Введите IP сервера или выберите   -------->"
           clearable
           required
-          pattern="[.0-9]+"
-          minlength="7"
           [style.font-size.px]="30"
         >
+          <sl-icon
+            class="choose-ip-icon"
+            id="choose-ip"
+            name="server"
+            slot="suffix"
+          ></sl-icon>
         </sl-input>
       </div>
 

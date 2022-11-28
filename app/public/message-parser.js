@@ -19,7 +19,7 @@ module.exports = class MessageParser extends EventEmitter
 		const id = this._accumulatedData[0];
 		const length = this._accumulatedData.subarray(1, 3).readInt16BE();
 
-		if(this._accumulatedData.length + 3 >= length)
+		if(this._accumulatedData.length - 3 >= length)
 		{
 			this.emit("message", id, this._accumulatedData.subarray(3, 3 + length));
 			this._accumulatedData = this._accumulatedData.subarray(3 + length);

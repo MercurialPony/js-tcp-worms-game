@@ -41,17 +41,17 @@ var mainImg;
 const parser = new MessageParser();
 parser.on("message", (id, data) =>
 {
-	const fr = getFrame();
+	const frame = getFrame();
 
 	// special case FIXME: bad
 	if(id === 3)
 	{
 		console.log("got img", data.length);
 		mainImg = PNG.sync.read(data);
-		fr.location.href = "battle/battle.html";
+		frame.location.href = "battle/battle.html";
 	}
 
-	const handler = fr.handler;
+	const handler = frame.handler;
 
 	if(!handler || !handler.handle(id, data))
 	{

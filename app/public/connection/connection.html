@@ -29,11 +29,20 @@
 
               <ul id="server-table" class="responsive-table">
                 <li class="table-header">
-                  <div class="col col-1" style="font-size: 20px">lock</div>
+                  <div
+                    class="col col-1"
+                    style="font-size: 20px; text-align: left"
+                  >
+                    Название
+                  </div>
 
-                  <div class="col col-2" style="font-size: 20px">ping</div>
+                  <div class="col col-2" style="font-size: 25px">
+                    <sl-icon name="globe"></sl-icon>
+                  </div>
 
-                  <div class="col col-3" style="font-size: 20px">kol</div>
+                  <div class="col col-3" style="font-size: 25px">
+                    <sl-icon name="people"></sl-icon>
+                  </div>
                 </li>
               </ul>
 
@@ -47,7 +56,12 @@
                   margin: 0 auto;
                 "
               >
-                <sl-button class="btn-stay" slot="footer" variant="success">
+                <sl-button
+                  onclick="getValue()"
+                  class="btn-stay"
+                  slot="footer"
+                  variant="danger"
+                >
                   ВЫБРАТЬ
                 </sl-button>
               </div>

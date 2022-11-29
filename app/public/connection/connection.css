@@ -70,8 +70,8 @@ body {
   justify-content: space-between;
   margin-bottom: 25px;
 }
-.connect-main .input-ip .dialog-div .container .responsive-table li:hover {
-  border: solid 1px rgb(0, 0, 0);
+.connect-main .input-ip .dialog-div .container .responsive-table li.active:after {
+  border: 3px solid #ffe5c5 !important;
 }
 .connect-main .input-ip .dialog-div .container .responsive-table .table-header {
   background-color: #e3e3e3;

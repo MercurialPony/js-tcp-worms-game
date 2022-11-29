@@ -1,11 +1,13 @@
 const Socket = require("net").Socket;
+const Datagram = require("dgram");
 const MessageParser = require("./message-parser");
 const MessageHandler = require("./message-handler");
+const BroadcastAddresses = require("./broadcast-addresses");
 const PNG = require("pngjs").PNG;
 
 
 
-/*------------*/
+/*------ Frame handling ------*/
 
 function getFrame()
 {
@@ -23,7 +25,9 @@ function frameChanged(url)
 
 
 
-/*------------*/
+/*------ TCP message handling ------*/
+
+var mainImg;
 
 var messageCache = {};
 
@@ -31,12 +35,6 @@ function provideHandler()
 {
 	return new MessageHandler(messageCache);
 }
-
-
-
-/*------------*/
-
-var mainImg;
 
 const parser = new MessageParser();
 parser.on("message", (id, data) =>
@@ -69,7 +67,7 @@ parser.on("message", (id, data) =>
 
 
 
-/*------------*/
+/*------ TCP connection ------*/
 
 var socket;
 
@@ -94,7 +92,33 @@ function disconnect()
 
 
 
-/*------------*/
+/*------ Broadcast connection ------*/
+
+var broadcastMessage = Buffer.from('Server?');
+var broadcastSocket = Datagram.createSocket('udp4');
+
+broadcastSocket.on("listening", () => broadcastSocket.setBroadcast(true));
+
+broadcastSocket.on("message", (message, remote) =>
+{
+	const handler = getFrame().broadcastResponse;
+
+	if(handler)
+	{
+		handler(message, remote);
+	}
+});
+
+broadcastSocket.bind(457);
+
+function broadcastJson()
+{
+	broadcastSocket.send(broadcastMessage, 0, broadcastMessage.length, 2914, BroadcastAddresses.get()[0]); // TODO: port
+}
+
+
+
+/*------ TCP message sending ------*/
 
 function send(id, data)
 {

@@ -47,12 +47,15 @@ body {
 }
 .connect-main .input-ip .dialog-div .container {
   position: relative;
-  max-width: 600px;
+  max-width: 800px;
   margin: auto;
 }
 .connect-main .input-ip .dialog-div .container h2 {
   font-size: 26px;
   text-align: center;
+}
+.connect-main .input-ip .dialog-div .container .responsive-table {
+  padding: 0px;
 }
 .connect-main .input-ip .dialog-div .container .responsive-table li {
   border-radius: 3px;

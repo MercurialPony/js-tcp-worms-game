@@ -55,7 +55,7 @@ body {
     .dialog-div {
       .container {
         position: relative;
-        max-width: 600px;
+        max-width: 800px;
         margin: auto;
 
         h2 {
@@ -64,6 +64,8 @@ body {
         }
 
         .responsive-table {
+          padding: 0px;
+
           li {
             border-radius: 3px;
             padding: 25px 30px;

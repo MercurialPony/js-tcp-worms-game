@@ -82,8 +82,8 @@ body {
             margin-bottom: 25px;
           }
 
-          li.active:after {
-            border: 3px solid #ffe5c5 !important;
+          .server-list:hover {
+            border: solid 1px rgb(25, 25, 25);
           }
 
           .table-header {

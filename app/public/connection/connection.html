@@ -22,25 +22,20 @@
   <div class="connect-fields">
     <form id="form">
       <div class="input-ip">
-        <sl-dialog id="dialog-id" class="dialog-ip" style="--width: 800px">
-          <div style="height: 500px; position: relative" class="dialog-div">
+        <sl-dialog id="dialog-id" class="dialog-ip">
+          <div class="dialog-div">
             <div class="container">
               <h2>ВЫБЕРИТЕ СЕРВЕР</h2>
 
               <ul id="server-table" class="responsive-table">
                 <li class="table-header">
-                  <div
-                    class="col col-1"
-                    style="font-size: 20px; text-align: left"
-                  >
-                    Название
-                  </div>
+                  <div class="col col-1">Название</div>
 
-                  <div class="col col-2" style="font-size: 25px">
+                  <div class="col col-2">
                     <sl-icon name="people"></sl-icon>
                   </div>
 
-                  <div class="col col-3" style="font-size: 25px">
+                  <div class="col col-3">
                     <sl-icon name="globe"></sl-icon>
                   </div>
                 </li>
@@ -49,17 +44,9 @@
                   class="server-list"
                   onclick="selectServer('127.0.0.1', '1457');"
                 >
-                  <div class="col col-1" style="margin: auto; text-align: left">
-                    <h3 style="margin: auto">Default Localhost</h3>
-                    <h5
-                      style="
-                        margin: auto;
-                        font-size: 14px;
-                        color: rgb(57, 57, 57);
-                      "
-                    >
-                      The defaultest locallest host!
-                    </h5>
+                  <div class="col col-1">
+                    <h3>Default Localhost</h3>
+                    <h5>The defaultest locallest host!</h5>
                   </div>
                   <div class="col col-2">0</div>
                   <div class="col col-3">?</div>

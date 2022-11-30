@@ -52,6 +52,10 @@ body {
     margin-top: 70px;
     width: 450px;
 
+    .dialog-ip {
+      --width: 800px;
+    }
+
     .dialog-ip::part(header) {
       background-color: #bababa;
     }
@@ -61,6 +65,9 @@ body {
     }
 
     .dialog-div {
+      height: 500px;
+      position: relative;
+
       .container {
         position: relative;
         max-width: 800px;
@@ -82,8 +89,28 @@ body {
             margin-bottom: 25px;
           }
 
+          .server-list {
+            border: 1px solid transparent;
+
+            .col-1 {
+              margin: auto;
+              text-align: left;
+
+              h3 {
+                margin: auto;
+              }
+
+              h5 {
+                margin: auto;
+                font-size: 14px;
+                color: rgb(57, 57, 57);
+              }
+            }
+          }
+
           .server-list:hover {
             border: solid 1px rgb(25, 25, 25);
+            margin: auto;
             cursor: pointer;
           }
 
@@ -91,17 +118,36 @@ body {
             background-color: #e3e3e3;
             font-size: 14px;
             text-transform: uppercase;
+
+            .col-1 {
+              flex-basis: 80%;
+              font-size: 20px;
+              text-align: left;
+            }
+
+            .col-2 {
+              font-size: 25px;
+            }
+
+            .col-3 {
+              font-size: 25px;
+            }
           }
+
           .table-row {
             background-color: #ffffff;
             box-shadow: 0px 0px 9px 0px rgba(0, 0, 0, 0.1);
           }
+
           .col-1 {
             flex-basis: 80%;
+            text-align: left;
           }
+
           .col-2 {
             flex-basis: 10%;
           }
+
           .col-3 {
             flex-basis: 10%;
           }

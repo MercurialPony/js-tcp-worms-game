@@ -45,11 +45,18 @@ body {
   margin-top: 70px;
   width: 450px;
 }
+.connect-main .input-ip .dialog-ip {
+  --width: 800px;
+}
 .connect-main .input-ip .dialog-ip::part(header) {
   background-color: #bababa;
 }
 .connect-main .input-ip .dialog-ip::part(body) {
   background-color: #bababa;
+}
+.connect-main .input-ip .dialog-div {
+  height: 500px;
+  position: relative;
 }
 .connect-main .input-ip .dialog-div .container {
   position: relative;
@@ -70,8 +77,24 @@ body {
   justify-content: space-between;
   margin-bottom: 25px;
 }
+.connect-main .input-ip .dialog-div .container .responsive-table .server-list {
+  border: 1px solid transparent;
+}
+.connect-main .input-ip .dialog-div .container .responsive-table .server-list .col-1 {
+  margin: auto;
+  text-align: left;
+}
+.connect-main .input-ip .dialog-div .container .responsive-table .server-list .col-1 h3 {
+  margin: auto;
+}
+.connect-main .input-ip .dialog-div .container .responsive-table .server-list .col-1 h5 {
+  margin: auto;
+  font-size: 14px;
+  color: rgb(57, 57, 57);
+}
 .connect-main .input-ip .dialog-div .container .responsive-table .server-list:hover {
   border: solid 1px rgb(25, 25, 25);
+  margin: auto;
   cursor: pointer;
 }
 .connect-main .input-ip .dialog-div .container .responsive-table .table-header {
@@ -79,12 +102,24 @@ body {
   font-size: 14px;
   text-transform: uppercase;
 }
+.connect-main .input-ip .dialog-div .container .responsive-table .table-header .col-1 {
+  flex-basis: 80%;
+  font-size: 20px;
+  text-align: left;
+}
+.connect-main .input-ip .dialog-div .container .responsive-table .table-header .col-2 {
+  font-size: 25px;
+}
+.connect-main .input-ip .dialog-div .container .responsive-table .table-header .col-3 {
+  font-size: 25px;
+}
 .connect-main .input-ip .dialog-div .container .responsive-table .table-row {
   background-color: #ffffff;
   box-shadow: 0px 0px 9px 0px rgba(0, 0, 0, 0.1);
 }
 .connect-main .input-ip .dialog-div .container .responsive-table .col-1 {
   flex-basis: 80%;
+  text-align: left;
 }
 .connect-main .input-ip .dialog-div .container .responsive-table .col-2 {
   flex-basis: 10%;

@@ -28,7 +28,6 @@
               <h2>ВЫБЕРИТЕ СЕРВЕР</h2>
 
               <ul id="server-table" class="responsive-table">
-			
                 <li class="table-header">
                   <div
                     class="col col-1"
@@ -41,12 +40,15 @@
                     <sl-icon name="people"></sl-icon>
                   </div>
 
-				  <div class="col col-3" style="font-size: 25px">
+                  <div class="col col-3" style="font-size: 25px">
                     <sl-icon name="globe"></sl-icon>
                   </div>
                 </li>
 
-                <li class="server-list" onclick="selectServer('127.0.0.1', '1457');">
+                <li
+                  class="server-list"
+                  onclick="selectServer('127.0.0.1', '1457');"
+                >
                   <div class="col col-1" style="margin: auto; text-align: left">
                     <h3 style="margin: auto">Default Localhost</h3>
                     <h5
@@ -62,9 +64,7 @@
                   <div class="col col-2">0</div>
                   <div class="col col-3">?</div>
                 </li>
-
               </ul>
-
             </div>
           </div>
         </sl-dialog>

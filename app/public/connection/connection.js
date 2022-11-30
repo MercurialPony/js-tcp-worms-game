@@ -4,7 +4,7 @@ const userInput = document.getElementById("username");
 
 const dialog = document.getElementById("dialog-id");
 const openButton = document.getElementById("choose-ip");
-
+// const closeButton = dialog;
 const serverTable = document.getElementById("server-table");
 
 /*------ Misc ------*/
@@ -16,10 +16,10 @@ function startInterval(time, action) {
 
 /*------ Table ------*/
 
-function selectServer(ip, port)
-{
-	ipInput.setAttribute("value", ip);
-	portInput.setAttribute("value", port);
+function selectServer(ip, port) {
+  ipInput.setAttribute("value", ip);
+  portInput.setAttribute("value", port);
+  dialog.hide();
 }
 
 function clearServers() {
@@ -28,37 +28,37 @@ function clearServers() {
     .forEach((e) => serverTable.removeChild(e));
 }
 
-function addServer(serverInfo)
-{
-	const li = document.createElement("li");
-	li.className = "server-list";
-	li.onclick = () => selectServer(serverInfo.ip, serverInfo.port);
-	serverTable.appendChild(li);
+function addServer(serverInfo) {
+  const li = document.createElement("li").classList.add("server-list");
+  li.className = "server-list";
+  li.onclick = () => selectServer(serverInfo.ip, serverInfo.port);
+  serverTable.appendChild(li);
 
-	const textDiv = document.createElement("div");
-	textDiv.className = "col col-1";
-	textDiv.style.cssText = "margin: auto; text-align: left"; // TODO: Bad
-	li.appendChild(textDiv);
+  const textDiv = document.createElement("div");
+  textDiv.className = "col col-1";
+  textDiv.style.cssText = "margin: auto; text-align: left"; // TODO: Bad
+  li.appendChild(textDiv);
 
-	const titleElement = document.createElement("h3");
-	titleElement.innerText = serverInfo.title;
-	titleElement.style.cssText = "style='margin: auto'"; // TODO: Bad
-	textDiv.appendChild(titleElement);
+  const titleElement = document.createElement("h3");
+  titleElement.innerText = serverInfo.title;
+  titleElement.style.cssText = "style='margin: auto'"; // TODO: Bad
+  textDiv.appendChild(titleElement);
 
-	const descElemenet = document.createElement("h5");
-	descElemenet.innerText = serverInfo.description;
-	descElemenet.style.cssText = "margin: auto; font-size: 14px; color: rgb(57, 57, 57);"; // TODO: Bad
-	textDiv.appendChild(descElemenet);
+  const descElemenet = document.createElement("h5");
+  descElemenet.innerText = serverInfo.description;
+  descElemenet.style.cssText =
+    "margin: auto; font-size: 14px; color: rgb(57, 57, 57);"; // TODO: Bad
+  textDiv.appendChild(descElemenet);
 
-	const playersDiv = document.createElement("div");
-	playersDiv.className = "col col-2";
-	playersDiv.innerText = serverInfo.players;
-	li.appendChild(playersDiv);
+  const playersDiv = document.createElement("div");
+  playersDiv.className = "col col-2";
+  playersDiv.innerText = serverInfo.players;
+  li.appendChild(playersDiv);
 
-	const pingDiv = document.createElement("div");
-	pingDiv.className = "col col-3";
-	pingDiv.innerText = serverInfo.ping;
-  	li.appendChild(pingDiv);
+  const pingDiv = document.createElement("div");
+  pingDiv.className = "col col-3";
+  pingDiv.innerText = serverInfo.ping;
+  li.appendChild(pingDiv);
 }
 
 /*------ Broadcast ------*/

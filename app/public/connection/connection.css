@@ -46,10 +46,10 @@ body {
   width: 450px;
 }
 .connect-main .input-ip .dialog-ip::part(header) {
-  background-color: #958626;
+  background-color: #bababa;
 }
 .connect-main .input-ip .dialog-ip::part(body) {
-  background-color: #958626;
+  background-color: #bababa;
 }
 .connect-main .input-ip .dialog-div .container {
   position: relative;
@@ -72,6 +72,7 @@ body {
 }
 .connect-main .input-ip .dialog-div .container .responsive-table .server-list:hover {
   border: solid 1px rgb(25, 25, 25);
+  cursor: pointer;
 }
 .connect-main .input-ip .dialog-div .container .responsive-table .table-header {
   background-color: #e3e3e3;

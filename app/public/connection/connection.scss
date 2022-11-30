@@ -53,11 +53,11 @@ body {
     width: 450px;
 
     .dialog-ip::part(header) {
-      background-color: #958626;
+      background-color: #bababa;
     }
 
     .dialog-ip::part(body) {
-      background-color: #958626;
+      background-color: #bababa;
     }
 
     .dialog-div {
@@ -84,6 +84,7 @@ body {
 
           .server-list:hover {
             border: solid 1px rgb(25, 25, 25);
+            cursor: pointer;
           }
 
           .table-header {

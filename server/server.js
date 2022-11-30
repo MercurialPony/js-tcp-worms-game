@@ -7,10 +7,17 @@ const Datagram = require('dgram');
 
 
 
+/*=========== Game init ===========*/
+
 const game = new Game();
 game.init();
 
-const server = Net.createServer(socket => {
+
+
+/*=========== TCP game connection ===========*/
+
+const server = Net.createServer(socket =>
+{
 	const ip = socket.remoteAddress.replace(/^.*:/, '');
 	const user = { ip, socket };
 	console.log(`${ip} connected`);
@@ -23,19 +30,26 @@ const server = Net.createServer(socket => {
 	socket.on("close", () => game.playerLeft(user));
 });
 
-server.listen(Config.gamePort, () => console.log("Server is running on PORT", Config.gamePort));
+server.listen(Config.port, () => console.log("Server is running on PORT", Config.port));
 
 
-const broadcastSocket = Datagram.createSocket('udp4');
 
-broadcastSocket.on('listening', () => {
-	console.log('Broadcast socket listening on PORT: ' + broadcastSocket.address().port);
+/*=========== UDP broadcast connection ===========*/
+
+const broadcastPort = 2914;
+const broadcastSocket = Datagram.createSocket("udp4");
+
+broadcastSocket.on("listening", () =>
+{
+	console.log("Broadcast socket listening on PORT", broadcastPort);
 });
 
-broadcastSocket.on('message', (message, remote) => {
-	console.log('SERVER RECEIVED:', remote.address + ' : ' + remote.port + ' - ' + message);
-	const response = Buffer.from(JSON.stringify(Config.info));
-	broadcastSocket.send(response, 0, response.length, remote.port, remote.address);
+broadcastSocket.on("message", (message, remote) =>
+{
+	//console.log('SERVER RECEIVED:', remote.address + ' : ' + remote.port + ' - ' + message);
+	const response = Object.assign({ players: game.playerCount() }, Config);
+	const resBuf = Buffer.from(JSON.stringify(response));
+	broadcastSocket.send(resBuf, 0, resBuf.length, remote.port, remote.address);
 });
 
-broadcastSocket.bind(Config.broadcastPort);
+broadcastSocket.bind(broadcastPort);

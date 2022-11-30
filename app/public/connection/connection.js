@@ -7,47 +7,68 @@ const openButton = document.getElementById("choose-ip");
 
 const serverTable = document.getElementById("server-table");
 
-function getIpPort() {}
-
-/*------------*/
+/*------ Misc ------*/
 
 function startInterval(time, action) {
   action();
   return setInterval(action, time);
 }
 
-/*------------*/
+/*------ Table ------*/
+
+function selectServer(ip, port)
+{
+	ipInput.setAttribute("value", ip);
+	portInput.setAttribute("value", port);
+}
 
 function clearServers() {
   Array.from(serverTable.getElementsByTagName("li"))
-    .slice(1)
+    .slice(2)
     .forEach((e) => serverTable.removeChild(e));
 }
 
-function createRowElement(idx, text) {
-  const element = document.createElement("div");
-  element.className = "col col-" + idx;
-  element.innerText = text;
-  return element;
+function addServer(serverInfo)
+{
+	const li = document.createElement("li");
+	li.className = "server-list";
+	li.onclick = () => selectServer(serverInfo.ip, serverInfo.port);
+	serverTable.appendChild(li);
+
+	const textDiv = document.createElement("div");
+	textDiv.className = "col col-1";
+	textDiv.style.cssText = "margin: auto; text-align: left"; // TODO: Bad
+	li.appendChild(textDiv);
+
+	const titleElement = document.createElement("h3");
+	titleElement.innerText = serverInfo.title;
+	titleElement.style.cssText = "style='margin: auto'"; // TODO: Bad
+	textDiv.appendChild(titleElement);
+
+	const descElemenet = document.createElement("h5");
+	descElemenet.innerText = serverInfo.description;
+	descElemenet.style.cssText = "margin: auto; font-size: 14px; color: rgb(57, 57, 57);"; // TODO: Bad
+	textDiv.appendChild(descElemenet);
+
+	const playersDiv = document.createElement("div");
+	playersDiv.className = "col col-2";
+	playersDiv.innerText = serverInfo.players;
+	li.appendChild(playersDiv);
+
+	const pingDiv = document.createElement("div");
+	pingDiv.className = "col col-3";
+	pingDiv.innerText = serverInfo.ping;
+  	li.appendChild(pingDiv);
 }
 
-function addServer(serverInfo) {
-  const li = document.createElement("li");
-  li.className = "table-row";
-  li.appendChild(createRowElement(1, 1));
-  li.appendChild(createRowElement(2, serverInfo.title));
-  li.appendChild(createRowElement(3, serverInfo.players));
-  serverTable.appendChild(li);
-}
-
-/*------------*/
+/*------ Broadcast ------*/
 
 const broadcastTime = 10 * 1000;
 let broadcastInterval = null;
 let lastBroadcastTime;
 
 function broadcast() {
-  // clearServers();
+  clearServers();
   parent.broadcastJson();
   lastBroadcastTime = Date.now();
 }
@@ -55,9 +76,8 @@ function broadcast() {
 function broadcastResponse(message, remote) {
   const serverInfo = JSON.parse(message.toString());
 
-  // TODO: change (temporary)
-  serverInfo.players = Date.now() - lastBroadcastTime + " (ping)";
-  serverInfo.title += " - " + serverInfo.description;
+  serverInfo.ping = Date.now() - lastBroadcastTime;
+  serverInfo.ip = remote.address;
 
   addServer(serverInfo);
 }
@@ -76,7 +96,7 @@ dialog.addEventListener("sl-request-close", (e) => {
   }
 });
 
-/*------------*/
+/*------ Connection ------*/
 
 if (sessionStorage.getItem("username")) {
   userInput.setAttribute("value", sessionStorage.getItem("username"));

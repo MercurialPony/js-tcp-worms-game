@@ -79,7 +79,7 @@ class Lobby extends GameContext
 
 	playerJoined(user, data)
 	{
-		if(this._game._players.some(u => u.player.username === data.username))
+		if(!data.username || this._game._players.some(u => u.player.username === data.username)) // TODO: different error codes on reject
 		{
 			console.log(data.username, "attempted to join lobby with existing username but was denied");
 
@@ -199,6 +199,11 @@ module.exports = class Game
 		this._context = new Lobby(this);
 
 		this._map = null;
+	}
+
+	playerCount()
+	{
+		return this._players.length + "/" + Lobby.minPlayersToStart;
 	}
 
 	_swapContext(ctx)

@@ -28,6 +28,7 @@
               <h2>ВЫБЕРИТЕ СЕРВЕР</h2>
 
               <ul id="server-table" class="responsive-table">
+			
                 <li class="table-header">
                   <div
                     class="col col-1"
@@ -37,17 +38,17 @@
                   </div>
 
                   <div class="col col-2" style="font-size: 25px">
-                    <sl-icon name="globe"></sl-icon>
-                  </div>
-
-                  <div class="col col-3" style="font-size: 25px">
                     <sl-icon name="people"></sl-icon>
                   </div>
+
+				  <div class="col col-3" style="font-size: 25px">
+                    <sl-icon name="globe"></sl-icon>
+                  </div>
                 </li>
 
-                <li class="server-list">
+                <li class="server-list" onclick="selectServer('127.0.0.1', '1457');">
                   <div class="col col-1" style="margin: auto; text-align: left">
-                    <h3 style="margin: auto">LA-LA-LEND</h3>
+                    <h3 style="margin: auto">Default Localhost</h3>
                     <h5
                       style="
                         margin: auto;
@@ -55,50 +56,15 @@
                         color: rgb(57, 57, 57);
                       "
                     >
-                      Uncomfortable structure of ground
+                      The defaultest locallest host!
                     </h5>
                   </div>
-                  <div class="col col-2">2(ping)</div>
-                  <div class="col col-3">1</div>
+                  <div class="col col-2">0</div>
+                  <div class="col col-3">?</div>
                 </li>
 
-                <li class="server-list">
-                  <div class="col col-1" style="margin: auto; text-align: left">
-                    <h3 style="margin: auto">LA-LA-LEND</h3>
-                    <h5
-                      style="
-                        margin: auto;
-                        font-size: 14px;
-                        color: rgb(57, 57, 57);
-                      "
-                    >
-                      Uncomfortable structure of ground
-                    </h5>
-                  </div>
-                  <div class="col col-2">2(ping)</div>
-                  <div class="col col-3">1</div>
-                </li>
               </ul>
 
-              <div
-                class="choose-btn"
-                style="
-                  position: relative;
-                  bottom: 0px;
-                  left: 0;
-                  right: 0;
-                  margin: 0 auto;
-                "
-              >
-                <sl-button
-                  onclick="getValue()"
-                  class="btn-stay"
-                  slot="footer"
-                  variant="danger"
-                >
-                  ВЫБРАТЬ
-                </sl-button>
-              </div>
             </div>
           </div>
         </sl-dialog>

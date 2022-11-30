@@ -1,8 +1,5 @@
 {
-  "info": {
-    "title": "Sus Server",
-    "description": "Sussy amogus omg epic"
-  },
-  "gamePort": "1457",
-  "broadcastPort": "2914"
+	"title": "Sus Server",
+	"description": "Sussy amogus omg epic",
+	"port": "1457"
 }

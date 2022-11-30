@@ -1,7 +1,7 @@
 re-add zlib
 
 client:
-close lobby/game if socket disconnect
+error and close lobby/game if socket disconnect
 message when joining a started game
 sync gui timer
 

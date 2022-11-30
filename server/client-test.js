@@ -1,5 +1,5 @@
 const Socket = require("net").Socket;
-const MessageParser = require("./message-parser");
+const MessageReader = require("./message-reader");
 const MessageSender = require("./message-sender");
 const ReadLine = require("readline");
 const Config = require("./config.json");
@@ -9,32 +9,56 @@ const OS = require("os");
 const socket = new Socket();
 const prompter = ReadLine.createInterface({ input: process.stdin, output: process.stdout });
 
-const username = process.argv[2] || "hewwo" + Math.floor(Math.random() * 1000);
-const ip = process.argv[3] || "localhost";
+const ip = process.argv[2] || "localhost";
 
-const parser = new MessageParser();
-parser.on("message", (id, data) =>
+function pickAndSend()
 {
-	console.log("msg", id, data.length > 512 ? "Data too long" : data.toString());
-
-	if(id === 6)
+	prompter.question("Enter username or [ LONG, TRASH, SHOOT ] to send a message\n", ans =>
 	{
-		prompter.question("Enter anything to send shoot message\n", () =>
+		switch(ans)
 		{
-			console.log("sent");
+		case "LONG":
+			MessageSender.data(socket, 1, Buffer.alloc(512));
+			break;
+		case "TRASH":
+			const buf = Buffer.alloc(64);
+			for(let i = 0; i < buf.length; ++i)
+			{
+				buf[i] = Math.floor(Math.random() * 256);
+			}
+			MessageSender.data(socket, 1, buf);
+			break;
+		case "SHOOT":
 			MessageSender.json(socket, 1, { direction: { x: Math.random(), y: Math.random() }, power: Math.random() });
-		});
-	}
-});
+			break;
+		default:
+			MessageSender.json(socket, 0, { username: ans });
+			break;
+		}
 
-socket.on("data", data => parser.pipe(data));
+		console.log("sent");
+
+		pickAndSend();
+	});
+}
+
+
+const reader = new MessageReader();
+reader.on("message", (id, data) => console.log("msg", id, data.length > 512 ? "Data too long" : data.toString()));
+
+socket.on("data", data => reader.pipe(data));
 socket.on("error", error => console.log(error));
+socket.on("close", () =>
+{
+	prompter.close();
+	console.log("Socket closed");
+	process.exit();
+})
 
-socket.connect({ port: Config.gamePort, host: ip }, () =>
+socket.connect({ port: Config.public.port, host: ip }, () =>
 {
 	console.log("Connected to server");
-	
-	MessageSender.json(socket, 0, { username });
+	pickAndSend();
 });
 
 
@@ -61,26 +85,25 @@ function getBroadcastAddresses()
 
 
 
-const broadcastMessage = Buffer.from('Server?');
 const broadcastSocket = Datagram.createSocket('udp4');
 
-broadcastSocket.on('listening', () => {
+const broadcastPort = 2914;
+const broadcastAddress = getBroadcastAddresses()[0];
+const broadcastMessage = Buffer.from('Server?');
+
+function broadcast()
+{
+	console.log("Sent to", broadcastPort, "address:", broadcastAddress);
+	broadcastSocket.send(broadcastMessage, 0, broadcastMessage.length, broadcastPort, broadcastAddress);
+}
+
+broadcastSocket.on("listening", () =>
+{
 	broadcastSocket.setBroadcast(true);
-	setInterval(() => {
-		const port = Config.broadcastPort;
-		const broadcastAddress = getBroadcastAddresses()[0];
-		console.log("Sent to", Config.broadcastPort, "address:", broadcastAddress);
-		broadcastSocket.send(
-			broadcastMessage,
-			0,
-			broadcastMessage.length,
-			port,
-			getBroadcastAddresses()[0]
-	)}, 5000);
+	broadcast();
+	//setInterval(broadcast, 5000);
 });
 
-broadcastSocket.on('message', (message, remote) => {
-	console.log('CLIENT RECEIVED: ', remote.address + ' : ' + remote.port + ' - ' + message);
-});
+broadcastSocket.on("message", (message, remote) => console.log("Received from", remote.address + ":" + remote.port + ":", message.toString()));
 
-broadcastSocket.bind('457');
+broadcastSocket.bind("457");

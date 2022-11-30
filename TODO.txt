@@ -6,4 +6,5 @@ message when joining a started game
 sync gui timer
 
 server:
-turn timeout/timer
+kick for message spam
+turn timer

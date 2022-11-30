@@ -77,22 +77,31 @@ class Lobby extends GameContext
 		MessageSender.json(this._game._sockets, 3, { timeToStart });
 	}
 
-	playerJoined(user, data)
+	playerJoined(user, data) // TODO: different error codes on reject
 	{
-		if(!data.username || this._game._players.some(u => u.player.username === data.username)) // TODO: different error codes on reject
+		if(!data.username)
 		{
-			console.log(data.username, "attempted to join lobby with existing username but was denied");
+			console.log(user.info(), "attempted to join lobby with no username but was denied");
 
 			this._notifyAccepted(user, false);
 
 			return;
 		}
 
-		console.log(data.username, "joined lobby");
+		if(this._game._players.some(u => u.player.username === data.username))
+		{
+			console.log(user.info(), "attempted to join lobby with an existing username '" + data.username + "' but was denied");
+
+			this._notifyAccepted(user, false);
+
+			return;
+		}
 
 		user.player = { username: data.username };
 		this._game._players.push(user);
 		this._game._sockets.push(user.socket);
+
+		console.log(user.info(), "joined lobby");
 
 		this._notifyAccepted(user, true);
 
@@ -103,7 +112,7 @@ class Lobby extends GameContext
 
 	playerLeft(user)
 	{
-		console.log(user.player.username, "left lobby");
+		console.log(user.info(), "left lobby");
 
 		this._game._players = this._game._players.filter(u => u.player.username !== user.player.username);
 		this._game._sockets = this._game._players.map(u => u.socket);
@@ -160,7 +169,7 @@ class Match extends GameContext
 			return;
 		}
 
-		console.log(user.player.username, "shot in", direction, "with power", power);
+		console.log(user.info(), "shot in", direction, "with power", power);
 		this._advanceTurn();
 	}
 
@@ -176,14 +185,12 @@ class Match extends GameContext
 
 	playerJoined(user, data)
 	{
-		console.log(data.username, "joined game but was denied");
-
-		user.socket.destroy();
+		user.kick("for joining after match started");
 	}
 
 	playerLeft(user)
 	{
-		console.log(user.player.username, "left game");
+		console.log(user.info(), "left game");
 		// TODO: end game
 	}
 }
@@ -216,7 +223,7 @@ module.exports = class Game
 	{
 		if(user.player)
 		{
-			console.log(user.player.username, "attempted to connect twice");
+			console.log(user.info(), "attempted to connect again with name '" + data.username + "'");
 			return;
 		}
 

@@ -1,5 +1,13 @@
 {
-	"title": "Sus Server",
-	"description": "Sussy amogus omg epic",
-	"port": "1457"
+	"public":
+	{
+		"title": "Sus Server",
+		"description": "Sussy amogus omg epic",
+		"port": "1457"
+	},
+	"internal":
+	{
+		"maxMsgLengthBytes": 256,
+		"maxSocketIdleMillis": 300000
+	}
 }

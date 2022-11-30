@@ -1,5 +1,5 @@
 const Net = require("net");
-const MessageParser = require("./message-parser");
+const MessageReader = require("./message-reader");
 const MessageHandler = require("./message-handler");
 const Game = require("./game-manager");
 const Config = require("./config.json");
@@ -16,21 +16,60 @@ game.init();
 
 /*=========== TCP game connection ===========*/
 
+class User
+{
+	constructor(socket)
+	{
+		this.socket = socket;
+		this.ip = socket.remoteAddress.replace(/^.*:/, "");
+	}
+
+	info()
+	{
+		return this.ip + (this.player ? " (" + this.player.username + ")" : "");
+	}
+
+	kick(reason)
+	{
+		console.log("Kicked", this.info(), reason);
+		this.socket.destroy();
+	}
+}
+
 const server = Net.createServer(socket =>
 {
-	const ip = socket.remoteAddress.replace(/^.*:/, '');
-	const user = { ip, socket };
-	console.log(`${ip} connected`);
+	const user = new User(socket);
+	console.log(user.info(), "connected");
 
-	const parser = new MessageParser();
-	parser.on("message", (id, data) => MessageHandler.handle(user, id, data));
+	socket.setTimeout(Config.internal.maxSocketIdleMillis);
 
-	socket.on("data", parser.pipe.bind(parser));
-	socket.on("error", error => console.error("Error:", ip, error.code));
+	const reader = new MessageReader();
+	reader.on("message", (id, data) =>
+	{
+		if(data.length > Config.internal.maxMsgLengthBytes)
+		{
+			user.kick("for sending a message that is too long:", data.length + "/" + Config.internal.maxMsgLengthBytes, "bytes");
+			return;
+		}
+
+		try
+		{
+			MessageHandler.handle(user, id, data);
+		}
+		catch(error)
+		{
+			console.log(user.info(), "sent a malformed message:", data.toString());
+			console.log(error);
+		}
+	});
+
+	socket.on("data", reader.pipe.bind(reader));
+	socket.on("error", error => console.error("Error:", user.info(), error.code));
 	socket.on("close", () => game.playerLeft(user));
+	socket.on("timeout", () => user.kick("for idling"));
 });
 
-server.listen(Config.port, () => console.log("Server is running on PORT", Config.port));
+server.listen(Config.public.port, () => console.log("Server is running on PORT", Config.public.port));
 
 
 
@@ -47,7 +86,7 @@ broadcastSocket.on("listening", () =>
 broadcastSocket.on("message", (message, remote) =>
 {
 	//console.log('SERVER RECEIVED:', remote.address + ' : ' + remote.port + ' - ' + message);
-	const response = Object.assign({ players: game.playerCount() }, Config);
+	const response = Object.assign({ players: game.playerCount() }, Config.public);
 	const resBuf = Buffer.from(JSON.stringify(response));
 	broadcastSocket.send(resBuf, 0, resBuf.length, remote.port, remote.address);
 });

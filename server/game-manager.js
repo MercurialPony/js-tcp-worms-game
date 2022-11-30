@@ -22,7 +22,7 @@ class GameContext
 
 class Lobby extends GameContext
 {
-	static minPlayersToStart = 2;
+	static minPlayersToStart = 1;
 	static timeToStart = 5 * 1000;
 
 	constructor(game)
@@ -97,7 +97,7 @@ class Lobby extends GameContext
 			return;
 		}
 
-		user.player = { username: data.username };
+		user.logIn(data.username);
 		this._game._players.push(user);
 		this._game._sockets.push(user.socket);
 
@@ -148,7 +148,7 @@ class Match extends GameContext
 
 	_notifyAllSpawnPos()
 	{
-		this._game._players.forEach(u => MessageSender.json(u.socket, 5, { spawnPos: u.player.spawnPos }));
+		MessageSender.json(this._game._sockets, 5, { spawns: this._game._players.map( u => ({ player: u.player.username, pos: u.player.pos }) ) });
 	}
 
 	_notifyAllCurrentTurn()
@@ -175,12 +175,20 @@ class Match extends GameContext
 
 	start()
 	{
+		console.log("game started");
 		const spawnPoints = PositionGenerator.pickPoints(this._game._map, this._game._players.length);
-		this._game._players.forEach((u, i) => u.player.spawnPos = { x: spawnPoints[i][0], y: spawnPoints[i][1] });
+		this._game._players.forEach((u, i) => u.player.pos = { x: spawnPoints[i][0], y: spawnPoints[i][1] });
 		console.log("picked spawn points for", this._game._players.length, "players");
 		this._notifyAllMap();
 		this._notifyAllSpawnPos();
 		this._notifyAllCurrentTurn();
+	}
+
+	end()
+	{
+		this._game._players.forEach(u => u.kick("match ended"));
+		this._game._players.length = 0;
+		this._game.startLobby();
 	}
 
 	playerJoined(user, data)
@@ -191,7 +199,8 @@ class Match extends GameContext
 	playerLeft(user)
 	{
 		console.log(user.info(), "left game");
-		// TODO: end game
+		console.log("Ending game");
+		this.end();
 	}
 }
 
@@ -203,7 +212,7 @@ module.exports = class Game
 		this._sockets = [];
 		//this._gameloop = new GameLoop(20, this._update);
 
-		this._context = new Lobby(this);
+		this._context = null;
 
 		this._map = null;
 	}
@@ -215,13 +224,17 @@ module.exports = class Game
 
 	_swapContext(ctx)
 	{
-		this._context.discard();
+		if(this._context)
+		{
+			this._context.discard();
+		}
+
 		this._context = ctx;
 	}
 
 	playerJoined(user, data)
 	{
-		if(user.player)
+		if(user.loggedIn())
 		{
 			console.log(user.info(), "attempted to connect again with name '" + data.username + "'");
 			return;
@@ -232,7 +245,7 @@ module.exports = class Game
 
 	playerLeft(user)
 	{
-		if(!user.player)
+		if(!user.loggedIn())
 		{
 			console.log(user.ip, "(forbidden) disconnected");
 			return;
@@ -266,13 +279,18 @@ module.exports = class Game
 	{
 		this._initHandlers();
 		this.genMap();
-		// this.gameloop.start();
+		this.startLobby();
+	}
+
+	startLobby()
+	{
+		this._swapContext(new Lobby(this));
+		console.log("lobby started");
 	}
 
 	startMatch()
 	{
 		this._swapContext(new Match(this));
 		this._context.start();
-		console.log("game started");
 	}
 }

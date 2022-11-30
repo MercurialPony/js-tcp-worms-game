@@ -30,7 +30,10 @@ var handler = parent.provideHandler();
 
 handler.json(5, data =>
 {
-	console.log(data.spawnPos);
+});
+
+handler.json(6, data =>
+{
 });
 
 window.onmousemove = (event) => {

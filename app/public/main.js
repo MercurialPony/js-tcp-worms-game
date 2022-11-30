@@ -30,7 +30,7 @@ function provideHandler() {
 
 const parser = new MessageParser();
 parser.on("message", (id, data) => {
-  console.log("msg", id, data.length > 512 ? "Data too long" : data.toString());
+  console.log("msg:", id, data.length > 512 ? "Data too long" : data.toString());
 
   const frame = getFrame();
 
@@ -41,8 +41,6 @@ parser.on("message", (id, data) => {
   }
 
   const handler = frame.handler;
-
-  console.log(handler);
 
   if (!handler || !handler.handle(id, data)) {
     if (!messageCache[id]) {

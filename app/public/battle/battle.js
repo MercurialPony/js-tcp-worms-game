@@ -50,6 +50,10 @@ function tabThis(event) {
   if (event.keyCode == 9) {
     const dialog = document.querySelector(".dialog-high-score");
     dialog.show();
+  } else if (event.keyCode == 192) {
+    //для теста "диалога" окончания игры. Нажми на клавишу ~
+    const dialog = document.querySelector(".dialog-end-game");
+    dialog.show();
   }
 }
 

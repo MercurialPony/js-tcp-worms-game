@@ -57,6 +57,12 @@ class Vec2
 	{
 		return this.clamp2(rangeX.x, rangeX.y, rangeY.x, rangeY.y);
 	}
+
+	angleTo(center)
+	{
+		const delta = this.copy().addVec(center.copy().scale1(-1));
+		return Math.atan2(delta.y, delta.x);
+	}
 }
 
 function getIndex(x, y, bitmap) // can be any object with a width parameter (eg. Canvas, ImageData, etc.)

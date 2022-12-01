@@ -122,6 +122,7 @@ function pickPoints(terrain, amount, seed = Math.random())
 		const point = surfacePoints[Math.floor(nextRandomNb * surfacePoints.length)];
 		points.push(point);
 	}
+
 	return points;
 }
 

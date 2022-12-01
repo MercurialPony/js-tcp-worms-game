@@ -23,7 +23,7 @@ class GameContext
 class Lobby extends GameContext
 {
 	static minPlayersToStart = 1;
-	static timeToStart = 5 * 1000;
+	static timeToStart = 1 * 1000;
 
 	constructor(game)
 	{
@@ -148,12 +148,12 @@ class Match extends GameContext
 
 	_notifyAllSpawnPos()
 	{
-		MessageSender.json(this._game._sockets, 5, { spawns: this._game._players.map( u => ({ player: u.player.username, pos: u.player.pos }) ) });
+		MessageSender.json(this._game._sockets, 5, { spawns: this._game._players.map( u => ({ username: u.player.username, pos: u.player.pos }) ) });
 	}
 
 	_notifyAllCurrentTurn()
 	{
-		MessageSender.json(this._game._sockets, 6, { currentPlayer: this._currentPlayer().username });
+		MessageSender.json(this._game._sockets, 6, { currentTurnUsername: this._currentPlayer().username });
 	}
 
 	_advanceTurn()
@@ -186,8 +186,10 @@ class Match extends GameContext
 
 	end()
 	{
-		this._game._players.forEach(u => u.kick("match ended"));
-		this._game._players.length = 0;
+		// TODO regenerate map
+		this._game._players.forEach(u => u.kick("match ended")); // TODO: remove player on disconnect
+		this._game._players.length = 0; // TODO don't repeat
+		this._game._sockets.length = 0;
 		this._game.startLobby();
 	}
 
@@ -245,6 +247,8 @@ module.exports = class Game
 
 	playerLeft(user)
 	{
+
+
 		if(!user.loggedIn())
 		{
 			console.log(user.ip, "(forbidden) disconnected");

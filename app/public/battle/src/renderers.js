@@ -1,3 +1,4 @@
+
 class CanvasRenderer
 {
 	constructor()
@@ -114,15 +115,71 @@ class TerrainRenderer extends CanvasRenderer
 
 
 
+class PlayerRenderer // the renderer assumes the terrain has been upscaled by 2 and therefor multiplies xy by 2
+{
+	constructor(player, bodySprite, handSprite) // TODO: make renderer choose texture depending on player skin property
+	{
+		this.player = player;
+		this.bodySprite = bodySprite;
+		this.handSprite = handSprite;
+	}
+
+	render(ctx, timestep)
+	{
+		const pos = this.player.pos.copy().scale1(2); // because level is upscaled
+		const handJointPos = this.player.handJointPos().scale1(2);
+
+		let angle = this.player.aimAngle + Math.PI * 5 / 180; // add 5 degrees to account for slight offset of the hand texture
+
+		ctx.save();
+
+		if(Math.abs(angle) > Math.PI / 2)
+		{
+			ctx.translate(pos.x, 0);
+			ctx.scale(-1, 1);
+			ctx.translate(-pos.x, 0);
+			angle = angle * -1 + Math.PI;
+		}
+
+		ctx.save();
+
+		ctx.translate(handJointPos.x, handJointPos.y);
+		ctx.rotate(angle);
+		ctx.translate(-handJointPos.x, -handJointPos.y);
+
+		this.handSprite.render(ctx, pos.x, pos.y, timestep);
+
+		ctx.restore();
+
+		this.bodySprite.render(ctx, pos.x, pos.y, timestep);
+
+		ctx.restore();
+
+		ctx.font = "14px Arial";
+		ctx.textAlign = "center";
+		ctx.textBaseline = "middle";
+		const text = ctx.measureText(this.player.username);
+		const textHeight = text.actualBoundingBoxAscent + text.actualBoundingBoxDescent;
+		const borderSize = 10;
+
+		ctx.fillStyle = "rgba(0, 0, 0, 0.2)";
+		ctx.fillRect(pos.x - text.width / 2 - borderSize, pos.y - this.player.height * 2 * 1.5 - textHeight / 2 - borderSize / 2, text.width + borderSize * 2, textHeight + borderSize);
+
+		ctx.fillStyle = "white";
+		ctx.fillText(this.player.username, pos.x, pos.y - this.player.height * 2 * 1.5);
+	}
+}
+
 class LevelRenderer extends CanvasRenderer
 {
 	constructor()
 	{
 		super();
 		//this.options = Object.assign({}, {}, options);
+		this.entities = null;
 	}
 
-	init(terrainCanvasSupplier) // usually expects a TerrainGenerator, but can be anything
+	init(terrainCanvasSupplier) // usually expects a TerrainRenderer, but can be anything
 	{
 		this.terrainCanvasSupplier = terrainCanvasSupplier;
 
@@ -132,11 +189,16 @@ class LevelRenderer extends CanvasRenderer
 		this.canvas.height = terrainCanvas.height;
 	}
 
-	render()
+	render(timestep)
 	{
 		clearCanvas(this.canvas);
 
 		this.ctx.drawImage(this.terrainCanvasSupplier.canvas, 0, 0);
+
+		for(const entity of this.entities)
+		{
+			entity.renderer.render(this.ctx, timestep);
+		}
 	}
 }
 
@@ -272,12 +334,22 @@ class SceneRenderer
 		ctx.drawImage(img, offset.x + (canvas.width - scaledSize.x) / 2, offset.y + canvas.height - scaledSize.y, scaledSize.x, scaledSize.y);
 	}
 
+	levelMousePos()
+	{
+		// reverse all the transformation done to the level canvas
+		return mouse.pos.copy()
+		.addVec(this._drag.copy().scale1(-1)) // first reverse the drag translation
+		.add(-(this.canvas.width - this.scaledLevelSize.x) / 2, 0) // then the draw-at-bottom-center translation
+		.scale1(this.levelRenderer.canvas.height / this.canvas.height) // then the scale-to-fit-window
+		.scale1(0.5); // and finally the hqx upscale
+	}
+
 	// TODO: add translation/scale/rotation and instead of manually using the renderer canvas, have each render function draw to a passed canvas instead
-	render()
+	render(timestep)
 	{
 		clearCanvas(this.canvas);
 
-		this.levelRenderer.render();
+		this.levelRenderer.render(timestep);
 
 		if(this.fitCanvas(this.canvas))
 		{

@@ -1,0 +1,47 @@
+body {
+  .dialog-high-score::part(header) {
+    background-color: rgb(220, 220, 220);
+  }
+
+  .dialog-high-score::part(body) {
+    height: 150px;
+    background-color: rgb(220, 220, 220);
+  }
+
+  .dialog-high-score {
+    --width: 800px;
+    --footer-spacing: 0;
+    --header-spacing: 10px;
+    --body-spacing: 5px;
+
+    .dialog-high-title {
+      text-align: center;
+      margin-top: -15px;
+      margin-bottom: 10px;
+    }
+  }
+
+  .dialog-score-div {
+    padding: 0;
+    background-color: rgb(220, 220, 220);
+    border: 1px solid rgb(0, 0, 0);
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+
+      th {
+        padding: 10px 15px;
+      }
+
+      th:first-child {
+        width: 50%;
+        text-align: left;
+      }
+
+      .table-header {
+        border-bottom: 1px solid rgb(0, 0, 0);
+      }
+    }
+  }
+}

@@ -1,0 +1,37 @@
+body .dialog-high-score::part(header) {
+  background-color: rgb(220, 220, 220);
+}
+body .dialog-high-score::part(body) {
+  height: 150px;
+  background-color: rgb(220, 220, 220);
+}
+body .dialog-high-score {
+  --width: 800px;
+  --footer-spacing: 0;
+  --header-spacing: 10px;
+  --body-spacing: 5px;
+}
+body .dialog-high-score .dialog-high-title {
+  text-align: center;
+  margin-top: -15px;
+  margin-bottom: 10px;
+}
+body .dialog-score-div {
+  padding: 0;
+  background-color: rgb(220, 220, 220);
+  border: 1px solid rgb(0, 0, 0);
+}
+body .dialog-score-div table {
+  width: 100%;
+  border-collapse: collapse;
+}
+body .dialog-score-div table th {
+  padding: 10px 15px;
+}
+body .dialog-score-div table th:first-child {
+  width: 50%;
+  text-align: left;
+}
+body .dialog-score-div table .table-header {
+  border-bottom: 1px solid rgb(0, 0, 0);
+}/*# sourceMappingURL=battle.css.map */

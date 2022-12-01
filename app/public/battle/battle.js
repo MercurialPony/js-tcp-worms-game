@@ -28,13 +28,9 @@ window.onload = async () => {
 
 var handler = parent.provideHandler();
 
-handler.json(5, data =>
-{
-});
+handler.json(5, (data) => {});
 
-handler.json(6, data =>
-{
-});
+handler.json(6, (data) => {});
 
 window.onmousemove = (event) => {
   if (leftMouseDown) {
@@ -45,4 +41,14 @@ window.onmousemove = (event) => {
 function render() {
   sceneRenderer.render();
   requestAnimationFrame(render);
+}
+
+//HIGHSCORE
+
+function tabThis(event) {
+  console.log(event.keyCode);
+  if (event.keyCode == 9) {
+    const dialog = document.querySelector(".dialog-high-score");
+    dialog.show();
+  }
 }

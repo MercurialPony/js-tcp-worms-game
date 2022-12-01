@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>HTML 5 Boilerplate</title>
     <link rel="stylesheet" href="../style.css" />
+    <link rel="stylesheet" href="./battle.css" />
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.83/dist/themes/light.css"
@@ -15,7 +16,29 @@
       src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.83/dist/shoelace.js"
     ></script>
   </head>
-  <body>
+  <body id="main-body" onkeydown="return(tabThis(event));">
+    <sl-dialog class="dialog-high-score">
+      <div class="dialog-score-div">
+        <table>
+          <tr class="table-header">
+            <th>Игрок</th>
+            <th>Убийств</th>
+            <th>Смертей</th>
+          </tr>
+          <tr>
+            <th>Edgar</th>
+            <th>1</th>
+            <th>0</th>
+          </tr>
+          <tr>
+            <th>Oleg</th>
+            <th>0</th>
+            <th>1</th>
+          </tr>
+        </table>
+      </div>
+    </sl-dialog>
+
     <sl-dialog class="dialog-deny-close">
       <h1
         class="dialog-title"
@@ -57,6 +80,15 @@
     </div>
 
     <script>
+      // const highScope = document.getElementById("main-body");
+
+      // highScope.document.addEventListener("keydown", function (event) {
+      //   console.log("Tab");
+      //   if (event.code == "Tab") {
+      //     alert("Нажат TAB");
+      //   }
+      // });
+
       const dialog = document.querySelector(".dialog-deny-close");
       const openButton = dialog.nextElementSibling;
       const homeButton = dialog.querySelector('sl-button[slot="footer"]');

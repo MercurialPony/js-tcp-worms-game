@@ -34,4 +34,22 @@ body .dialog-score-div table th:first-child {
 }
 body .dialog-score-div table .table-header {
   border-bottom: 1px solid rgb(0, 0, 0);
+}
+body .dialog-deny-close .dialog-title {
+  text-align: center;
+  color: rgb(255, 255, 255);
+  margin-bottom: 60px;
+}
+body .dialog-deny-close .dialog-btns {
+  text-align: center;
+  margin-bottom: 10px;
+}
+body .dialog-deny-close .dialog-btns .btn-stay {
+  right: 10px;
+}
+body .dialog-deny-close .dialog-btns .btn-home {
+  left: 10px;
+}
+body .btn-back {
+  font-size: 1.5rem;
 }/*# sourceMappingURL=battle.css.map */

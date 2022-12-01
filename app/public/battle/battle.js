@@ -52,3 +52,19 @@ function tabThis(event) {
     dialog.show();
   }
 }
+
+//btn-to-home
+
+const dialog = document.querySelector(".dialog-deny-close");
+const openButton = dialog.nextElementSibling;
+const homeButton = dialog.querySelector('sl-button[slot="footer"]');
+const closeButton = dialog.querySelector('sl-button[slot="footer"]');
+
+openButton.addEventListener("click", () => dialog.show());
+closeButton.addEventListener("click", () => dialog.hide());
+
+dialog.addEventListener("sl-request-close", (event) => {
+  if (event.detail.source === "overlay") {
+    event.preventDefault();
+  }
+});

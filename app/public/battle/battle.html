@@ -40,29 +40,15 @@
     </sl-dialog>
 
     <sl-dialog class="dialog-deny-close">
-      <h1
-        class="dialog-title"
-        style="
-          text-align: center;
-          color: rgb(255, 255, 255);
-          margin-bottom: 60px;
-        "
-      >
-        ТЫ СДАЕШЬСЯ ?
-      </h1>
-      <div class="dialog-btns" style="text-align: center; margin-bottom: 10px">
-        <sl-button
-          class="btn-stay"
-          slot="footer"
-          variant="success"
-          style="right: 10px"
+      <h1 class="dialog-title">ТЫ СДАЕШЬСЯ ?</h1>
+      <div class="dialog-btns">
+        <sl-button class="btn-stay" slot="footer" variant="success"
           >НИ ЗА ЧТО!</sl-button
         >
         <sl-button
           class="btn-home"
           slot="footer"
           variant="danger"
-          style="left: 10px"
           href="../home/home.html"
           >СДАЮСЬ</sl-button
         >
@@ -74,35 +60,9 @@
         class="icon_back"
         name="arrow-left-square"
         label="back-btn"
-        style="font-size: 1.5rem"
       >
       </sl-icon-button>
     </div>
-
-    <script>
-      // const highScope = document.getElementById("main-body");
-
-      // highScope.document.addEventListener("keydown", function (event) {
-      //   console.log("Tab");
-      //   if (event.code == "Tab") {
-      //     alert("Нажат TAB");
-      //   }
-      // });
-
-      const dialog = document.querySelector(".dialog-deny-close");
-      const openButton = dialog.nextElementSibling;
-      const homeButton = dialog.querySelector('sl-button[slot="footer"]');
-      const closeButton = dialog.querySelector('sl-button[slot="footer"]');
-
-      openButton.addEventListener("click", () => dialog.show());
-      closeButton.addEventListener("click", () => dialog.hide());
-
-      dialog.addEventListener("sl-request-close", (event) => {
-        if (event.detail.source === "overlay") {
-          event.preventDefault();
-        }
-      });
-    </script>
 
     <canvas id="c" width="1000" height="1000"></canvas>
     <script src="lib/hqx.js"></script>

@@ -227,8 +227,8 @@ class Match extends GameContext
 		player.killed = true;
 		this._notifyAllPlayerKilled(player);
 		
-		Highscores.getInfo(player).deaths++;
-		Highscores.getInfo(killer).kills++;
+		Highscores.getInfo(player.username).deaths++;
+		Highscores.getInfo(killer.username).kills++;
 		Highscores.save();
 	}
 

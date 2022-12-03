@@ -142,7 +142,7 @@ class PlayerRenderer // the renderer assumes the terrain has been upscaled by 2 
 		const chargeProgress = this.player.chargeProgress();
 
 
-		if(showingTrajectory)
+		if(showingTrajectory && this.player.local)
 		{
 			ctx.beginPath();
 

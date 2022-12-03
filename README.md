@@ -24,14 +24,21 @@ The rest of the byte stream should contain the payload data itself.
 
 #### Data sent from the client must conform to one of the following message templates:
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://i.imgur.com/g7a4pAa.png">
-  <source media="(prefers-color-scheme: light)" srcset="https://i.imgur.com/MOJiF3f.png">
-  <img alt="Client: Message Templates" src="https://i.imgur.com/MOJiF3f.png">
+  <source media="(prefers-color-scheme: dark)" srcset="https://i.imgur.com/q2JKmWW.png">
+  <source media="(prefers-color-scheme: light)" srcset="https://i.imgur.com/l6uSC83.png">
+  <img alt="Client: Message Templates" src="https://i.imgur.com/l6uSC83.png">
 </picture>
 
 #### Data sent from the server must conform to one of the following message templates:
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://i.imgur.com/sbMDIiM.png">
-  <source media="(prefers-color-scheme: light)" srcset="https://i.imgur.com/hcbl4yv.png">
-  <img alt="Server: Message Templates" src="https://i.imgur.com/hcbl4yv.png">
+  <source media="(prefers-color-scheme: dark)" srcset="https://i.imgur.com/ElWW4RU.png">
+  <source media="(prefers-color-scheme: light)" srcset="https://i.imgur.com/zfJLV92.png">
+  <img alt="Server: Message Templates" src="https://i.imgur.com/zfJLV92.png">
+</picture>
+
+#### Message flow chart:
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://i.imgur.com/kRlNpPZ.png">
+  <source media="(prefers-color-scheme: light)" srcset="https://i.imgur.com/ea4sHZN.png">
+  <img alt="Server: Message Templates" src="https://i.imgur.com/ea4sHZN.png">
 </picture>

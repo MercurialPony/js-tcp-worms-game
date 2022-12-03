@@ -1,4 +1,3 @@
-
 class CanvasRenderer
 {
 	constructor()
@@ -117,19 +116,29 @@ class TerrainRenderer extends CanvasRenderer
 
 class PlayerRenderer // the renderer assumes the terrain has been upscaled by 2 and therefor multiplies xy by 2
 {
-	constructor(player, bodySprite, handSprite) // TODO: make renderer choose texture depending on player skin property
+	constructor(player, bodySprite, handSprite, gunSprite, deathSprite) // TODO: make renderer choose texture depending on player skin property
 	{
 		this.player = player;
 		this.bodySprite = bodySprite;
 		this.handSprite = handSprite;
+		this.gunSprite = gunSprite;
+		this.deathSprite = deathSprite;
 	}
 
 	render(ctx, timestep)
 	{
+		const originUv = new Vec2(0.5, 1.0);
 		const pos = this.player.pos.copy().scale1(2); // because level is upscaled
-		const handJointPos = this.player.handJointPos().scale1(2);
 
-		let angle = this.player.aimAngle + Math.PI * 5 / 180; // add 5 degrees to account for slight offset of the hand texture
+		if(this.player.killed)
+		{
+			this.deathSprite.render(ctx, pos.x, pos.y, originUv.x, originUv.y, timestep);
+
+			return;
+		}
+
+		const handJointPos = this.player.handJointPos().scale1(2);
+		let angle = this.player.look.angle();
 
 		ctx.save();
 
@@ -144,29 +153,77 @@ class PlayerRenderer // the renderer assumes the terrain has been upscaled by 2 
 		ctx.save();
 
 		ctx.translate(handJointPos.x, handJointPos.y);
-		ctx.rotate(angle);
+		ctx.rotate(angle + Math.PI * 5 / 180); // add 5 degrees to account for slight offset of the hand texture
 		ctx.translate(-handJointPos.x, -handJointPos.y);
 
-		this.handSprite.render(ctx, pos.x, pos.y, timestep);
+		this.handSprite.render(ctx, pos.x, pos.y, originUv.x, originUv.y, timestep);
+		this.gunSprite.render(ctx, pos.x, pos.y, originUv.x, originUv.y, timestep);
 
 		ctx.restore();
 
-		this.bodySprite.render(ctx, pos.x, pos.y, timestep);
+		if(this.player.charging())
+		{
+			ctx.save();
+			ctx.translate(handJointPos.x, handJointPos.y);
+			ctx.rotate(angle);
+			ctx.translate(-handJointPos.x, -handJointPos.y);
+			
+			const chargeLength = 80;
+			const chargeStep = 1;
+			const maxChargeSteps = chargeLength / chargeStep;
+			const chargeSteps = Math.floor(maxChargeSteps * this.player.chargeProgress());
+
+			const lookStep = new Vec2(chargeStep, 0);
+			const chargePos = handJointPos.copy().add(30, 0);
+
+			const gradient = ctx.createLinearGradient(chargePos.x - chargeLength / 2, 0, chargePos.x + chargeLength, 0);
+			gradient.addColorStop(0, "red");
+			gradient.addColorStop(1, "orange");
+			ctx.fillStyle = gradient;
+
+			ctx.beginPath();
+			for(let i = 0; i < chargeSteps; ++i)
+			{
+				chargePos.addVec(lookStep);
+				ctx.arc(chargePos.x, chargePos.y, remap(i, 0, maxChargeSteps - 1, 5, 20), 0, Math.PI * 2);
+			}
+			ctx.fill();
+
+			ctx.restore();
+		}
+
+		this.bodySprite.render(ctx, pos.x, pos.y, originUv.x, originUv.y, timestep);
 
 		ctx.restore();
 
-		ctx.font = "14px Arial";
-		ctx.textAlign = "center";
-		ctx.textBaseline = "middle";
-		const text = ctx.measureText(this.player.username);
-		const textHeight = text.actualBoundingBoxAscent + text.actualBoundingBoxDescent;
-		const borderSize = 10;
+		ctx.font = "18px Arial";
+		renderCenteredTextBox(ctx, pos.x, pos.y - this.player.height * 4, this.player.username, "rgba(0, 0, 0, 0.2)", "white");
+	}
+}
 
-		ctx.fillStyle = "rgba(0, 0, 0, 0.2)";
-		ctx.fillRect(pos.x - text.width / 2 - borderSize, pos.y - this.player.height * 2 * 1.5 - textHeight / 2 - borderSize / 2, text.width + borderSize * 2, textHeight + borderSize);
+class BulletRenderer
+{
+	constructor(entity, bulletSprite)
+	{
+		this.entity = entity;
+		this.bulletSprite = bulletSprite;
+	}
 
-		ctx.fillStyle = "white";
-		ctx.fillText(this.player.username, pos.x, pos.y - this.player.height * 2 * 1.5);
+	render(ctx, timestep)
+	{
+		this.entity.pos.addVec(this.entity.velocity.copy().scale1(timestep / 1000)); // TODO: this mutates the pos
+		const pos = this.entity.pos.copy().scale1(2);
+
+		const angle = this.entity.velocity.copy().normalize().angle();
+
+		ctx.save();
+		ctx.translate(pos.x, pos.y);
+		ctx.rotate(angle);
+		ctx.translate(-pos.x, -pos.y);
+
+		this.bulletSprite.render(ctx, pos.x, pos.y, 0.5, 0.5, timestep);
+
+		ctx.restore();
 	}
 }
 
@@ -176,7 +233,7 @@ class LevelRenderer extends CanvasRenderer
 	{
 		super();
 		//this.options = Object.assign({}, {}, options);
-		this.entities = null;
+		this.entities = [];
 	}
 
 	init(terrainCanvasSupplier) // usually expects a TerrainRenderer, but can be anything
@@ -199,6 +256,8 @@ class LevelRenderer extends CanvasRenderer
 		{
 			entity.renderer.render(this.ctx, timestep);
 		}
+
+		this.entities = this.entities.filter(e => !e.dead);
 	}
 }
 
@@ -297,7 +356,7 @@ class SceneRenderer
 	constructor(canvas, bgImage, levelRenderer, waterRenderer, options)
 	{
 		this.canvas = canvas;
-		this.ctx = this.canvas.getContext("2d");
+		this.ctx = canvas.getContext("2d");
 		this.bgImage = bgImage;
 		this.levelRenderer = levelRenderer;
 		this.waterRenderer = waterRenderer;
@@ -364,5 +423,8 @@ class SceneRenderer
 		this.waterRenderer.render(this.canvas, this.ctx, this._drag, 0, 2);
 		this.drawBottomCenter(this.levelRenderer.canvas, this.scaledLevelSize, this._drag, this.canvas, this.ctx);
 		this.waterRenderer.render(this.canvas, this.ctx, this._drag, 2);
+
+		this.ctx.font = "30px Arial";
+		renderCenteredTextBox(this.ctx, this.canvas.width / 2, 32, "Current turn: " + currentTurnUsername, "rgba(0, 0, 0, 0.2)", "white");
 	}
 }

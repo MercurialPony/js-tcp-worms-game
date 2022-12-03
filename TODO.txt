@@ -1,10 +1,19 @@
 re-add zlib
 
 client:
-error and close lobby/game if socket disconnect
+close lobby/game if socket disconnect
 message when joining a started game
 sync gui timer
 
 server:
 kick for message spam
 turn timer
+
+
+TOMORROW:
+trajectory
+fix bullet clipping into terrain
+player skin on server?
+fix time and player amount
+flowchart + update readme
+test highscore

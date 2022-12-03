@@ -24,9 +24,9 @@ class User
 		this.ip = socket.remoteAddress.replace(/^.*:/, "");
 	}
 
-	logIn(username)
+	logIn(player)
 	{
-		this.player = { username };
+		this.player = player;
 	}
 
 	logOut()

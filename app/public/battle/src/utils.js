@@ -8,6 +8,11 @@ function clamp(val, min, max)
 	return min > val ? min : val > max ? max : val;
 }
 
+function remap(v, minOld, maxOld, minNew, maxNew)
+{
+	return minNew + (v - minOld) * (maxNew - minNew) / (maxOld - minOld);
+}
+
 function indexOfMax(arr)
 {
 	let max = arr[0];

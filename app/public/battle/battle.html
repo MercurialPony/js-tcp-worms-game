@@ -16,24 +16,14 @@
       src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.83/dist/shoelace.js"
     ></script>
   </head>
-  <body id="main-body" onkeydown="return(tabThis(event));">
+  <body id="main-body"">
     <sl-dialog class="dialog-high-score">
       <div class="dialog-score-div">
-        <table>
+        <table id="highscore-table">
           <tr class="table-header">
             <th>Игрок</th>
             <th>Убийств</th>
             <th>Смертей</th>
-          </tr>
-          <tr>
-            <th>Edgar</th>
-            <th>1</th>
-            <th>0</th>
-          </tr>
-          <tr>
-            <th>Oleg</th>
-            <th>0</th>
-            <th>1</th>
           </tr>
         </table>
       </div>
@@ -42,9 +32,6 @@
     <sl-dialog class="dialog-end-game">
       <div class="end-game-div">
         <h1 class="end-game-title">Игра окончена</h1>
-
-        <!-- Тут должно показываться как именно завершилась игра -->
-        <div></div>
 
         <div class="end-btn">
           <sl-button

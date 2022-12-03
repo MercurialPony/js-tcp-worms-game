@@ -10,37 +10,38 @@ class Sprite
 		this.currentFrame = 0;
 	}
 
-	nextFrame()
+	nextFrame(loops)
 	{
-		this.currentFrame = (this.currentFrame + 1) % this.totalFrames;
+		this.currentFrame = loops ? (this.currentFrame + 1) % this.totalFrames : clamp(this.currentFrame + 1, 0, this.totalFrames - 1);
 	}
 
-	render(ctx, x, y, timestep)
+	render(ctx, x, y, originU, originV, timestep)
 	{
-		ctx.drawImage(this.spritesheet, this.currentFrame * this.width, 0, this.width, this.height, x - this.width / 2, y - this.height, this.width, this.height);
+		ctx.drawImage(this.spritesheet, this.currentFrame * this.width, 0, this.width, this.height, x - this.width * originU, y - this.height * originV, this.width, this.height);
 	}
 }
 
 class AnimatedSprite extends Sprite
 {
-	constructor(spritesheet, totalFrames, frameRate)
+	constructor(spritesheet, totalFrames, frameRate, loops = true)
 	{
 		super(spritesheet, totalFrames);
 		this.frameInterval = 1000 / frameRate;
+		this.loops = loops;
 
 		this.accumulatedTime = 0;
 	}
 
-	render(ctx, x, y, timestep)
+	render(ctx, x, y, originU, originV, timestep)
 	{
-		super.render(ctx, x, y, timestep);
+		super.render(ctx, x, y, originU, originV, timestep);
 
 		this.accumulatedTime += timestep;
 
 		if(this.accumulatedTime >= this.frameInterval)
 		{
 			this.accumulatedTime -= this.frameInterval;
-			this.nextFrame();
+			this.nextFrame(this.loops);
 		}
 	}
 }

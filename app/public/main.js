@@ -30,7 +30,7 @@ function provideHandler() {
 
 const parser = new MessageParser();
 parser.on("message", (id, data) => {
-  console.log("msg:", id, data.length > 512 ? "Data too long" : data.toString());
+  //console.log("msg:", id, data.length > 512 ? "Data too long" : data.toString());
 
   const frame = getFrame();
 
@@ -59,6 +59,7 @@ function connect(host, port, username) {
   if (!socket) {
     socket = new Socket();
     socket.on("data", parser.pipe.bind(parser));
+	socket.on("error", error => alert(error));
   }
 
   socket.connect({ host, port }, () => sendJson(0, { username }));

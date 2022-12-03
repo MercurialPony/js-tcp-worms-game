@@ -18,6 +18,11 @@ class Vec2
 		return this;
 	}
 
+	length()
+	{
+		return Math.sqrt(this.x * this.x + this.y * this.y);
+	}
+
 	add(x, y)
 	{
 		return this.set(this.x + x, this.y + y);
@@ -58,10 +63,14 @@ class Vec2
 		return this.clamp2(rangeX.x, rangeX.y, rangeY.x, rangeY.y);
 	}
 
-	angleTo(center)
+	normalize()
 	{
-		const delta = this.copy().addVec(center.copy().scale1(-1));
-		return Math.atan2(delta.y, delta.x);
+		return this.scale1(1 / this.length());
+	}
+
+	angle()
+	{
+		return Math.atan2(this.y, this.x);
 	}
 }
 
@@ -106,7 +115,7 @@ function pngToCanvas(png)
 	return canvas;
 }
 
-function clearCanvas(canvas)
+function clearCanvas(canvas) // TODO: pass ctx everywhere instead of canvas
 {
 	canvas.getContext("2d").clearRect(0, 0, canvas.width, canvas.height);
 }
@@ -121,4 +130,19 @@ function resizeCanvas(canvas, width, height)
 	canvas.width = width;
 	canvas.height = height;
 	return true;
+}
+
+function renderCenteredTextBox(ctx, x, y, text, boxStyle, textStyle, borderSizeX = 10, borderSizeY = 5)
+{
+	ctx.textAlign = "center";
+	ctx.textBaseline = "middle";
+
+	const metrics = ctx.measureText(text);
+	const textHeight = metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent;
+
+	ctx.fillStyle = boxStyle;
+	ctx.fillRect(x - metrics.width / 2 - borderSizeX, y - textHeight / 2 - borderSizeY, metrics.width + borderSizeX * 2, textHeight + borderSizeY * 2);
+
+	ctx.fillStyle = textStyle;
+	ctx.fillText(text, x, y);
 }

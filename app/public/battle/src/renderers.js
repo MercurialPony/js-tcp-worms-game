@@ -139,6 +139,29 @@ class PlayerRenderer // the renderer assumes the terrain has been upscaled by 2 
 
 		const handJointPos = this.player.handJointPos().scale1(2);
 		let angle = this.player.look.angle();
+		const chargeProgress = this.player.chargeProgress();
+
+
+		if(showingTrajectory)
+		{
+			ctx.beginPath();
+
+			ctx.strokeStyle = "red";
+
+			const numPoints = 100;
+			const trajPos = handJointPos.copy();
+			const trajVel = this.player.look.copy().scale1(500).scale1(2 * 50 / 1000);
+			const trajAcc = new Vec2(0, 50).scale1(50 / 1000);
+
+			for(let i = 0; i < numPoints; ++i)
+			{
+				ctx.lineTo(trajPos.x, trajPos.y);
+				trajPos.addVec(trajVel);
+				trajVel.addVec(trajAcc);
+			}
+
+			ctx.stroke();
+		}
 
 		ctx.save();
 
@@ -171,7 +194,7 @@ class PlayerRenderer // the renderer assumes the terrain has been upscaled by 2 
 			const chargeLength = 80;
 			const chargeStep = 1;
 			const maxChargeSteps = chargeLength / chargeStep;
-			const chargeSteps = Math.floor(maxChargeSteps * this.player.chargeProgress());
+			const chargeSteps = Math.floor(maxChargeSteps * chargeProgress);
 
 			const lookStep = new Vec2(chargeStep, 0);
 			const chargePos = handJointPos.copy().add(30, 0);

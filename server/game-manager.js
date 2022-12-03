@@ -38,8 +38,8 @@ class GameContext
 
 class Lobby extends GameContext
 {
-	static minPlayersToStart = 1;
-	static timeToStart = 1 * 1000;
+	static minPlayersToStart = 2;
+	static timeToStart = 10 * 1000;
 
 	constructor(game)
 	{
@@ -448,7 +448,7 @@ module.exports = class Game
 
 	genMap()
 	{
-		const randomType = Math.floor(Math.random() * 3) + 1;
+		const randomType = 2; // Math.floor(Math.random() * 3) + 1; // FIXME: 2 only for showcase
 		console.log("chose terrain type", randomType);
 		this._map = new Map(TerrainGenerator.generate(`./terrain_bases/base_${randomType}.png`));
 		console.log("generated terrain");

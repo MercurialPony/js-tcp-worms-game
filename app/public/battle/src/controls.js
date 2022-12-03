@@ -17,6 +17,8 @@ window.onmousemove = e =>
 	}
 };
 
+let showingTrajectory = false;
+
 window.onkeydown = e =>
 {
 	if(e.repeat)
@@ -31,6 +33,10 @@ window.onkeydown = e =>
 	else if (e.keyCode === 192)
 	{
 		document.querySelector(".dialog-high-score").show();
+	}
+	else if(e.keyCode === 66)
+	{
+		showingTrajectory = !showingTrajectory;
 	}
 };
 

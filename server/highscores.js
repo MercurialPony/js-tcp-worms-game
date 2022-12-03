@@ -1,15 +1,19 @@
 const FS = require("fs");
-const PlayerData = require("./player_data.json");
 
 
 
-function getInfo(player)
+let playerData;
+
+
+
+function getInfo(username)
 {
-	let playerInfo = PlayerData[player.username];
+	playerData = JSON.parse(FS.readFileSync("./player-data.json", { encoding: "utf-8" }));
+	let playerInfo = playerData[username];
 
 	if(!playerInfo)
 	{
-		playerInfo = PlayerData[player.username] = { kills: 0, deaths: 0 };
+		playerInfo = playerData[username] = { kills: 0, deaths: 0 };
 	}
 
 	return playerInfo;
@@ -17,7 +21,7 @@ function getInfo(player)
 
 function save()
 {
-	FS.writeFileSync("./player-data.json", JSON.stringify(PlayerData));
+	FS.writeFileSync("./player-data.json", JSON.stringify(playerData));
 }
 
 

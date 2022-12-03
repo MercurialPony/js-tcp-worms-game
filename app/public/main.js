@@ -59,7 +59,7 @@ function connect(host, port, username) {
   if (!socket) {
     socket = new Socket();
     socket.on("data", parser.pipe.bind(parser));
-	socket.on("error", error => alert(error));
+	socket.on("error", error => alert("disconnected from server:", error));
   }
 
   socket.connect({ host, port }, () => sendJson(0, { username }));

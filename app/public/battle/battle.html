@@ -21,9 +21,9 @@
       <div class="dialog-score-div">
         <table id="highscore-table">
           <tr class="table-header">
-            <th>Игрок</th>
-            <th>Убийств</th>
-            <th>Смертей</th>
+            <th>Player</th>
+            <th>Kills</th>
+            <th>Deaths</th>
           </tr>
         </table>
       </div>
@@ -31,7 +31,7 @@
 
     <sl-dialog class="dialog-end-game">
       <div class="end-game-div">
-        <h1 class="end-game-title">Игра окончена</h1>
+        <h1 class="end-game-title">Game over</h1>
 
         <div class="end-btn">
           <sl-button
@@ -39,24 +39,24 @@
             slot="footer"
             variant="danger"
             href="../home/home.html"
-            >На базу</sl-button
+            >To Base</sl-button
           >
         </div>
       </div>
     </sl-dialog>
 
     <sl-dialog class="dialog-deny-close">
-      <h1 class="dialog-title">ТЫ СДАЕШЬСЯ ?</h1>
+      <h1 class="dialog-title">DO YOU SURRENDER?</h1>
       <div class="dialog-btns">
         <sl-button class="btn-stay" slot="footer" variant="success"
-          >НИ ЗА ЧТО!</sl-button
+          >NO WAY!</sl-button
         >
         <sl-button
           class="btn-home"
           slot="footer"
           variant="danger"
           href="../home/home.html"
-          >СДАЮСЬ</sl-button
+          >YES...</sl-button
         >
       </div>
     </sl-dialog>

@@ -16,7 +16,7 @@
 
 <div class="connect-main">
   <div class="connect-main-title">
-    <h1 class="main-title">Подключение к серверу</h1>
+    <h1 class="main-title">Connecting to a server</h1>
   </div>
 
   <div class="connect-fields">
@@ -25,11 +25,11 @@
         <sl-dialog id="dialog-id" class="dialog-ip">
           <div class="dialog-div">
             <div class="container">
-              <h2>ВЫБЕРИТЕ СЕРВЕР</h2>
+              <h2>SELECT A SERVER</h2>
 
               <ul id="server-table" class="responsive-table">
                 <li class="table-header">
-                  <div class="col col-1">Название</div>
+                  <div class="col col-1">Title</div>
 
                   <div class="col col-2">
                     <sl-icon name="people"></sl-icon>
@@ -60,7 +60,7 @@
           id="ip"
           name="ip"
           class="input-data"
-          placeholder="Введите IP сервера или выберите   -------->"
+          placeholder="Input the server IP or select   -------->"
           clearable
           required
           [style.font-size.px]="30"
@@ -79,7 +79,7 @@
           id="port"
           name="port"
           class="input-data"
-          placeholder="Введите PORT"
+          placeholder="Input the PORT"
           clearable
           required
           pattern="[.0-9]+"
@@ -94,7 +94,7 @@
           id="username"
           name="username"
           class="input-data"
-          placeholder="Введите username"
+          placeholder="Input the username"
           clearable
           required
           pattern="[A-Za-z]+"
@@ -111,7 +111,7 @@
           outline
           type="submit"
         >
-          ИГРАТЬ
+          PLAY
         </sl-button>
       </div>
     </form>
